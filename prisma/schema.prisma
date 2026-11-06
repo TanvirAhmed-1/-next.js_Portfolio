@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  description     String
+  longDescription String?
+  category        String   // "Full Stack" | "Backend" | "Frontend" | "Mobile" | "DevOps"
+  tags            String[] // Array of tags
+  imageUrl        String
+  liveUrl         String?
+  githubUrl       String?
+  featured        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model Skill {
+  id          String   @id @default(uuid())
+  name        String
+  category    String   // "Frontend" | "Backend" | "Database" | "DevOps & Cloud" | "Tools & Others"
+  level       String   // "Beginner" | "Intermediate" | "Advanced" | "Expert"
+  proficiency Int      @default(80)
+  iconName    String?  @default("FaCode")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("skills")
+}
+
+model Blog {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  summary   String
+  content   String?
+  category  String
+  readTime  String   @default("5 min read")
+  published Boolean  @default(true)
+  tags      String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blogs")
+}
+
+model Profile {
+  id               String   @id @default(uuid())
+  name             String
+  title            String
+  bio              String
+  about            String
+  location         String
+  email            String
+  github           String
+  linkedin         String
+  twitter          String?
+  availableForHire Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}
