@@ -10,20 +10,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      UserRole   @default(USER)
+  status    UserStatus @default(ACTIVE)
+  avatar    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("users")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  slug      String    @unique
+  projects  Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("categories")
+}
+
 model Project {
-  id              String   @id @default(uuid())
+  id              String    @id @default(uuid())
   title           String
-  slug            String   @unique
+  slug            String    @unique
   description     String
   longDescription String?
-  category        String   // "Full Stack" | "Backend" | "Frontend" | "Mobile" | "DevOps"
-  tags            String[] // Array of tags
+  category        String    // Category display name (e.g. "Full Stack", "Backend", etc.)
+  categoryId      String?
+  projectCategory Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags            String[]  // Array of tags
   imageUrl        String
   liveUrl         String?
   githubUrl       String?
-  featured        Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  featured        Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@map("projects")
 }
@@ -35,6 +73,7 @@ model Skill {
   level       String   // "Beginner" | "Intermediate" | "Advanced" | "Expert"
   proficiency Int      @default(80)
   iconName    String?  @default("FaCode")
+  iconImage   String?  // Custom icon image URL (Cloudinary / SVG / PNG)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -58,19 +97,24 @@ model Blog {
 }
 
 model Profile {
-  id               String   @id @default(uuid())
-  name             String
-  title            String
-  bio              String
-  about            String
-  location         String
-  email            String
-  github           String
-  linkedin         String
-  twitter          String?
-  availableForHire Boolean  @default(true)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id                 String   @id @default(uuid())
+  name               String
+  title              String
+  bio                String
+  about              String
+  location           String
+  phone              String?  @default("+880 1700-000000")
+  email              String
+  github             String
+  linkedin           String
+  twitter            String?
+  resumeUrl          String?  @default("/resume")
+  avatarUrl          String?
+  availableForHire   Boolean  @default(true)
+  yearsOfExperience  Int?     @default(5)
+  projectsCompleted  Int?     @default(35)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   @@map("profiles")
 }

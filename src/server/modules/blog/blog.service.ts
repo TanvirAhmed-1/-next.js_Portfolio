@@ -42,11 +42,11 @@ const initialBlogs: IBlog[] = [
 
 let memoryBlogs = [...initialBlogs];
 
-const getAllBlogsFromDB = async (): Promise<IBlog[]> => {
+const getAllBlogsFromDB = async (includeAll = false): Promise<IBlog[]> => {
   if (isDatabaseConfigured()) {
     try {
       const result = await prisma.blog.findMany({
-        where: { published: true },
+        where: includeAll ? {} : { published: true },
         orderBy: { createdAt: "desc" },
       });
       if (result.length > 0) return result as unknown as IBlog[];
@@ -55,15 +55,15 @@ const getAllBlogsFromDB = async (): Promise<IBlog[]> => {
     }
   }
 
-  return memoryBlogs;
+  return includeAll ? memoryBlogs : memoryBlogs.filter((b) => b.published);
 };
 
-const getSingleBlogFromDB = async (slug: string): Promise<IBlog | null> => {
+const getSingleBlogFromDB = async (slugOrId: string): Promise<IBlog | null> => {
   if (isDatabaseConfigured()) {
     try {
       const result = await prisma.blog.findFirst({
         where: {
-          OR: [{ slug }, { id: slug }],
+          OR: [{ slug: slugOrId }, { id: slugOrId }],
         },
       });
       if (result) return result as unknown as IBlog;
@@ -72,7 +72,7 @@ const getSingleBlogFromDB = async (slug: string): Promise<IBlog | null> => {
     }
   }
 
-  return memoryBlogs.find((b) => b.slug === slug || b.id === slug) || null;
+  return memoryBlogs.find((b) => b.slug === slugOrId || b.id === slugOrId) || null;
 };
 
 const createBlogIntoDB = async (payload: any): Promise<IBlog> => {
@@ -108,9 +108,54 @@ const createBlogIntoDB = async (payload: any): Promise<IBlog> => {
   return newBlog;
 };
 
+const updateBlogInDB = async (id: string, payload: any): Promise<IBlog | null> => {
+  if (isDatabaseConfigured()) {
+    try {
+      const result = await prisma.blog.update({
+        where: { id },
+        data: payload,
+      });
+      return result as unknown as IBlog;
+    } catch (error) {
+      console.warn("Prisma blog update error:", error);
+    }
+  }
+
+  const index = memoryBlogs.findIndex((b) => b.id === id);
+  if (index !== -1) {
+    memoryBlogs[index] = { ...memoryBlogs[index], ...payload };
+    return memoryBlogs[index];
+  }
+
+  return null;
+};
+
+const deleteBlogFromDB = async (id: string): Promise<IBlog | null> => {
+  if (isDatabaseConfigured()) {
+    try {
+      const result = await prisma.blog.delete({
+        where: { id },
+      });
+      return result as unknown as IBlog;
+    } catch (error) {
+      console.warn("Prisma blog delete error:", error);
+    }
+  }
+
+  const index = memoryBlogs.findIndex((b) => b.id === id);
+  if (index !== -1) {
+    const deleted = memoryBlogs[index];
+    memoryBlogs = memoryBlogs.filter((b) => b.id !== id);
+    return deleted;
+  }
+
+  return null;
+};
+
 export const BlogService = {
   getAllBlogsFromDB,
   getSingleBlogFromDB,
   createBlogIntoDB,
+  updateBlogInDB,
+  deleteBlogFromDB,
 };
-

@@ -1,4 +1,5 @@
 import { getProjects, getSkills } from "@/lib/storage";
+import { ProfileService } from "@/server/modules/profile/profile.service";
 import { experiences } from "@/data/initial-data";
 import { Navbar } from "@/components/shared/Navbar";
 import { HeroSection } from "@/components/ui/home/HeroSection";
@@ -9,10 +10,10 @@ import { ExperienceSection } from "@/components/ui/home/ExperienceSection";
 import { ContactSection } from "@/components/ui/home/ContactSection";
 import { Footer } from "@/components/shared/Footer";
 
-
-export default function Home() {
+export default async function Home() {
   const projects = getProjects();
   const skills = getSkills();
+  const profile = await ProfileService.getProfileFromDB();
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -20,11 +21,11 @@ export default function Home() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <HeroSection />
+        {/* Dynamic Hero with verified Avatar & metrics */}
+        <HeroSection profile={profile} />
 
         {/* About & Engineering Philosophy */}
-        <AboutSection />
+        <AboutSection profile={profile} />
 
         {/* Dynamic Skills (CRUD Enabled) */}
         <SkillsSection initialSkills={skills} />
@@ -35,8 +36,8 @@ export default function Home() {
         {/* Work Experience Timeline */}
         <ExperienceSection experiences={experiences} />
 
-        {/* Contact Form with React Hook Form + Zod */}
-        <ContactSection />
+        {/* Contact Form with React Hook Form + Dynamic Phone/Email */}
+        <ContactSection profile={profile} />
       </main>
 
       {/* Footer */}

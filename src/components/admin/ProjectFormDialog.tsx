@@ -12,12 +12,12 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { RHFInput, RHFSelector, RHFTextArea, RHFImageUpload } from "@/components/shared/forms";
 import { projectSchema, ProjectFormData } from "@/lib/validations";
 import { Project, ProjectCategory } from "@/types";
-import { Loader2, Plus, Edit } from "lucide-react";
+import { Loader2, Plus, Edit, FolderPlus, Check } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface ProjectFormDialogProps {
   projectToEdit?: Project | null;
@@ -26,12 +26,13 @@ interface ProjectFormDialogProps {
   onSuccess: (project: Project) => void;
 }
 
-const CATEGORIES: ProjectCategory[] = [
+const DEFAULT_CATEGORIES: string[] = [
   "Full Stack",
   "Backend",
   "Frontend",
   "Mobile",
   "DevOps",
+  "AI & Cloud",
 ];
 
 const DEFAULT_IMAGE =
@@ -45,6 +46,29 @@ export function ProjectFormDialog({
 }: ProjectFormDialogProps) {
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [dynamicCategories, setDynamicCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+  const [newCatName, setNewCatName] = useState("");
+  const [isAddingCat, setIsAddingCat] = useState(false);
+
+  // Fetch dynamic categories from database
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("/api/categories");
+      const data = await res.json();
+      if (data.success && data.data && data.data.length > 0) {
+        const names = data.data.map((c: any) => c.name);
+        setDynamicCategories((prev) => Array.from(new Set([...prev, ...names])));
+      }
+    } catch (e) {
+      console.error("Failed to fetch dynamic categories:", e);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchCategories();
+    }
+  }, [isOpen]);
 
   const {
     register,
@@ -52,6 +76,7 @@ export function ProjectFormDialog({
     reset,
     watch,
     setValue,
+    control,
     formState: { errors },
   } = useForm<ProjectFormData>({
     resolver: zodResolver(projectSchema) as any,
@@ -115,6 +140,30 @@ export function ProjectFormDialog({
     setServerError(null);
   }, [projectToEdit, isOpen, reset]);
 
+  const handleCreateNewCategory = async () => {
+    if (!newCatName.trim()) return;
+    try {
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCatName.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const added = data.data.name;
+        setDynamicCategories((prev) => Array.from(new Set([...prev, added])));
+        setValue("category", added as any);
+        setNewCatName("");
+        setIsAddingCat(false);
+        toast.success(`Category "${added}" added!`);
+      } else {
+        toast.error(data.error || "Failed to create category");
+      }
+    } catch (e: any) {
+      toast.error(e.message || "Error creating category");
+    }
+  };
+
   const onSubmit = async (data: ProjectFormData) => {
     setSubmitting(true);
     setServerError(null);
@@ -135,10 +184,12 @@ export function ProjectFormDialog({
         throw new Error(result.error || "Failed to save project");
       }
 
+      toast.success(isEdit ? "Project updated successfully!" : "Project created successfully!");
       onSuccess(result.data);
       onClose();
     } catch (err: any) {
       console.error("Save project error:", err);
+      toast.error(err.message || "An unexpected error occurred");
       setServerError(err.message || "An unexpected error occurred");
     } finally {
       setSubmitting(false);
@@ -177,125 +228,128 @@ export function ProjectFormDialog({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
           {/* Project Title */}
-          <div className="space-y-1.5">
-            <Label htmlFor="project-title">Project Title *</Label>
-            <Input
-              id="project-title"
-              placeholder="e.g. Distributed NestJS Microservices"
-              {...register("title")}
-            />
-            {errors.title && (
-              <p className="text-xs text-destructive">{errors.title.message}</p>
-            )}
-          </div>
+          <RHFInput
+            name="title"
+            label="Project Title"
+            placeholder="e.g. Distributed NestJS Microservices"
+            required
+            control={control}
+          />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {/* Category */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-start">
+            {/* Dynamic Category Selector & Quick Add */}
             <div className="space-y-1.5">
-              <Label htmlFor="project-category">Category *</Label>
-              <select
-                id="project-category"
-                {...register("category")}
-                className="w-full h-9 rounded-lg border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-              >
-                {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat} className="bg-background text-foreground">
-                    {cat}
-                  </option>
-                ))}
-              </select>
-              {errors.category && (
-                <p className="text-xs text-destructive">{errors.category.message}</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Category <span className="text-destructive">*</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsAddingCat(!isAddingCat)}
+                  className="text-[11px] font-mono text-primary hover:underline flex items-center gap-1"
+                >
+                  <FolderPlus className="h-3 w-3" />
+                  {isAddingCat ? "Cancel" : "+ New"}
+                </button>
+              </div>
+
+              {isAddingCat ? (
+                <div className="flex items-center gap-1.5 pt-0.5">
+                  <input
+                    type="text"
+                    value={newCatName}
+                    onChange={(e) => setNewCatName(e.target.value)}
+                    placeholder="Enter category name..."
+                    className="h-8 flex-1 rounded-lg border border-input bg-background px-2.5 text-xs outline-none focus:border-primary"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleCreateNewCategory();
+                      }
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    size="xs"
+                    onClick={handleCreateNewCategory}
+                    className="h-8 px-2.5 text-xs gap-1"
+                  >
+                    <Check className="h-3.5 w-3.5" />
+                    Add
+                  </Button>
+                </div>
+              ) : (
+                <RHFSelector
+                  name="category"
+                  options={dynamicCategories}
+                  control={control}
+                  required
+                />
               )}
             </div>
 
             {/* Slug */}
-            <div className="space-y-1.5">
-              <Label htmlFor="project-slug">Slug (URL friendly)</Label>
-              <Input
-                id="project-slug"
-                placeholder="e.g. nestjs-distributed-microservices"
-                {...register("slug")}
-              />
-            </div>
+            <RHFInput
+              name="slug"
+              label="URL Slug (Auto Generated)"
+              placeholder="e.g. nestjs-distributed-microservices"
+              control={control}
+              className="font-mono text-xs"
+            />
           </div>
 
           {/* Short Description */}
-          <div className="space-y-1.5">
-            <Label htmlFor="project-desc">Short Description *</Label>
-            <Textarea
-              id="project-desc"
-              rows={2}
-              placeholder="Brief summary of the architecture and business outcome..."
-              {...register("description")}
-            />
-            {errors.description && (
-              <p className="text-xs text-destructive">{errors.description.message}</p>
-            )}
-          </div>
+          <RHFTextArea
+            name="description"
+            label="Short Description"
+            rows={2}
+            placeholder="Brief summary of the architecture and business outcome..."
+            required
+            control={control}
+          />
 
           {/* Long / Architecture Details */}
-          <div className="space-y-1.5">
-            <Label htmlFor="project-long-desc">Extended Architectural Details</Label>
-            <Textarea
-              id="project-long-desc"
-              rows={3}
-              placeholder="Detailed explanation of design patterns, database choices, queues, etc."
-              {...register("longDescription")}
-            />
-          </div>
+          <RHFTextArea
+            name="longDescription"
+            label="Extended Architectural Details"
+            rows={3}
+            placeholder="Detailed explanation of design patterns, database choices, queues, etc."
+            control={control}
+          />
 
           {/* Tech Stack Tags */}
-          <div className="space-y-1.5">
-            <Label htmlFor="project-tags">Tech Stack Tags (comma-separated) *</Label>
-            <Input
-              id="project-tags"
-              placeholder="NestJS, Next.js, Redis, RabbitMQ, Docker"
-              {...register("tags")}
-            />
-            {errors.tags && (
-              <p className="text-xs text-destructive">{errors.tags.message}</p>
-            )}
-          </div>
+          <RHFInput
+            name="tags"
+            label="Tech Stack Tags (comma-separated)"
+            placeholder="NestJS, Next.js, Redis, RabbitMQ, Docker"
+            required
+            control={control}
+          />
 
-          {/* Image URL */}
-          <div className="space-y-1.5">
-            <Label htmlFor="project-image">Cover Image URL *</Label>
-            <Input
-              id="project-image"
-              placeholder="https://images.unsplash.com/..."
-              {...register("imageUrl")}
-            />
-            {errors.imageUrl && (
-              <p className="text-xs text-destructive">{errors.imageUrl.message}</p>
-            )}
-          </div>
+          {/* Cloudinary Image Upload */}
+          <RHFImageUpload
+            name="imageUrl"
+            label="Cover Image (Cloudinary CDN)"
+            folder="portfolio/projects"
+            required
+            control={control}
+          />
 
           {/* Links Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <Label htmlFor="project-live">Live Demo URL</Label>
-              <Input
-                id="project-live"
-                placeholder="https://example.com"
-                {...register("liveUrl")}
-              />
-              {errors.liveUrl && (
-                <p className="text-xs text-destructive">{errors.liveUrl.message}</p>
-              )}
-            </div>
+            <RHFInput
+              name="liveUrl"
+              label="Live Demo URL"
+              placeholder="https://example.com"
+              control={control}
+            />
 
-            <div className="space-y-1.5">
-              <Label htmlFor="project-github">GitHub Repository</Label>
-              <Input
-                id="project-github"
-                placeholder="https://github.com/..."
-                {...register("githubUrl")}
-              />
-              {errors.githubUrl && (
-                <p className="text-xs text-destructive">{errors.githubUrl.message}</p>
-              )}
-            </div>
+            <RHFInput
+              name="githubUrl"
+              label="GitHub Repository URL"
+              placeholder="https://github.com/..."
+              control={control}
+            />
           </div>
 
           {/* Featured checkbox */}
@@ -303,7 +357,7 @@ export function ProjectFormDialog({
             <input
               type="checkbox"
               id="project-featured"
-              className="h-4 w-4 rounded border-input text-primary focus:ring-primary"
+              className="h-4 w-4 rounded border-input text-primary focus:ring-primary cursor-pointer"
               {...register("featured")}
             />
             <Label htmlFor="project-featured" className="cursor-pointer text-sm font-normal">
@@ -330,4 +384,3 @@ export function ProjectFormDialog({
     </Dialog>
   );
 }
-

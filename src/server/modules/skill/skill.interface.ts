@@ -14,6 +14,7 @@ export interface ISkill {
   level: SkillLevel;
   proficiency: number;
   iconName?: string | null;
+  iconImage?: string | null;
   createdAt: string | Date;
   updatedAt?: string | Date;
 }

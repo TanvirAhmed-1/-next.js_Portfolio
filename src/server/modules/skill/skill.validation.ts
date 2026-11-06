@@ -18,6 +18,7 @@ export const createSkillZodSchema = z.object({
     .min(1, "Proficiency must be at least 1")
     .max(100, "Proficiency cannot exceed 100"),
   iconName: z.string().optional().default("FaCode"),
+  iconImage: z.string().optional().nullable(),
 });
 
 export const updateSkillZodSchema = createSkillZodSchema.partial();

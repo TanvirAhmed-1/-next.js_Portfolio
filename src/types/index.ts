@@ -8,6 +8,7 @@ export interface Skill {
   category: SkillCategory;
   level: SkillLevel;
   iconName?: string;
+  iconImage?: string;
   proficiency: number; // 0 - 100
   createdAt: string;
 }
@@ -29,6 +30,19 @@ export interface Project {
   createdAt: string;
 }
 
+export interface Blog {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  content?: string;
+  category: string;
+  readTime: string;
+  published: boolean;
+  tags: string[];
+  createdAt: string;
+}
+
 export interface Experience {
   id: string;
   role: string;
@@ -44,10 +58,15 @@ export interface ProfileInfo {
   bio: string;
   about: string;
   location: string;
+  phone?: string;
   email: string;
   github: string;
   linkedin: string;
   twitter?: string;
+  resumeUrl?: string;
+  avatarUrl?: string;
   availableForHire: boolean;
+  yearsOfExperience?: number;
+  projectsCompleted?: number;
 }
 

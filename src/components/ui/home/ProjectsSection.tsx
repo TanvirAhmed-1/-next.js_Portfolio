@@ -17,27 +17,34 @@ import {
   Info,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 interface ProjectsSectionProps {
   initialProjects: Project[];
 }
 
-const CATEGORIES: Array<"All" | ProjectCategory> = [
-  "All",
-  "Full Stack",
-  "Backend",
-  "Frontend",
-  "Mobile",
-  "DevOps",
-];
-
 export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
   const [projects, setProjects] = useState<Project[]>(initialProjects);
-  const [selectedCategory, setSelectedCategory] = useState<"All" | ProjectCategory>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [activeProjectDetail, setActiveProjectDetail] = useState<Project | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Dynamic categories extracted from live projects + defaults
+  const categoriesList = [
+    "All",
+    ...Array.from(
+      new Set([
+        "Full Stack",
+        "Backend",
+        "Frontend",
+        "Mobile",
+        "DevOps",
+        ...projects.map((p) => p.category),
+      ])
+    ),
+  ];
 
   const filteredProjects =
     selectedCategory === "All"
@@ -63,12 +70,13 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
       const result = await res.json();
       if (res.ok && result.success) {
         setProjects((prev) => prev.filter((p) => p.id !== id));
+        toast.success(`Project "${title}" deleted`);
       } else {
-        alert(result.error || "Failed to delete project");
+        toast.error(result.error || "Failed to delete project");
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      alert("Failed to delete project");
+      toast.error(e.message || "Failed to delete project");
     } finally {
       setDeletingId(null);
     }
@@ -84,28 +92,17 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
               Selected Works
             </Badge>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Production Applications & Microservices
+              Production Applications &amp; Microservices
             </h2>
             <p className="mt-2 text-muted-foreground text-sm sm:text-base max-w-xl">
-              Fully dynamic projects catalog. Add new case studies, edit tech tags, or manage live URLs.
+              Architectural case studies, full-stack microservices, and interactive web applications.
             </p>
           </div>
-
-          <Button
-            onClick={() => {
-              setProjectToEdit(null);
-              setIsDialogOpen(true);
-            }}
-            className="gap-2 shrink-0 shadow-xs"
-          >
-            <Plus className="h-4 w-4" />
-            Add Project
-          </Button>
         </div>
 
-        {/* Category Filter Pills */}
+        {/* Category Filter Pills (Dynamic) */}
         <div className="flex flex-wrap gap-2 mb-8 border-b border-border/40 pb-4">
-          {CATEGORIES.map((cat) => (
+          {categoriesList.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -126,19 +123,9 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
           <div className="p-12 text-center rounded-xl border border-dashed border-border/60 bg-muted/10">
             <FolderGit2 className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
             <p className="text-sm font-medium text-foreground">No projects found in this category</p>
-            <p className="text-xs text-muted-foreground mt-1 mb-4">
-              Add your recent work or change the category filter.
+            <p className="text-xs text-muted-foreground mt-1">
+              Select another category filter to explore more work.
             </p>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => {
-                setProjectToEdit(null);
-                setIsDialogOpen(true);
-              }}
-            >
-              Add Project Now
-            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -147,7 +134,7 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
                 key={project.id}
                 className="group relative flex flex-col rounded-xl bg-card border border-border/60 overflow-hidden shadow-xs hover:shadow-lg hover:border-primary/40 transition-all"
               >
-                {/* Image Container with Badges & Actions */}
+                {/* Image Container with Badges */}
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   <Image
                     src={project.imageUrl}
@@ -170,40 +157,16 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
                       </span>
                     )}
                   </div>
-
-                  {/* Top Right Actions (Edit / Delete) */}
-                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/60 backdrop-blur-md p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      size="icon-xs"
-                      variant="ghost"
-                      className="text-white hover:text-primary hover:bg-white/20"
-                      onClick={() => {
-                        setProjectToEdit(project);
-                        setIsDialogOpen(true);
-                      }}
-                      title="Edit Project"
-                    >
-                      <Edit2 className="h-3.5 w-3.5" />
-                    </Button>
-                    <Button
-                      size="icon-xs"
-                      variant="ghost"
-                      className="text-white hover:text-destructive hover:bg-white/20"
-                      disabled={deletingId === project.id}
-                      onClick={() => handleDelete(project.id, project.title)}
-                      title="Delete Project"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
-                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-2">
-                      {project.title}
-                    </h3>
+                    <Link href={`/projects/${project.slug}`}>
+                      <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-2 hover:underline">
+                        {project.title}
+                      </h3>
+                    </Link>
                     <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 leading-relaxed mb-4">
                       {project.description}
                     </p>
@@ -249,15 +212,16 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
                       )}
                     </div>
 
-                    <Button
-                      size="xs"
-                      variant="ghost"
-                      className="text-xs text-muted-foreground hover:text-foreground"
-                      onClick={() => setActiveProjectDetail(project)}
-                    >
-                      <Info className="h-3.5 w-3.5 mr-1" />
-                      Details
-                    </Button>
+                    <Link href={`/projects/${project.slug}`}>
+                      <Button
+                        size="xs"
+                        variant="ghost"
+                        className="text-xs text-muted-foreground hover:text-foreground"
+                      >
+                        <Info className="h-3.5 w-3.5 mr-1" />
+                        Case Study
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </article>

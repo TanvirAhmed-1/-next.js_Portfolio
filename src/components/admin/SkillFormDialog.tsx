@@ -12,11 +12,11 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { RHFInput, RHFSelector, RHFImageUpload } from "@/components/shared/forms";
 import { skillSchema, SkillFormData } from "@/lib/validations";
 import { Skill, SkillCategory, SkillLevel } from "@/types";
 import { Loader2, Plus, Edit } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface SkillFormDialogProps {
   skillToEdit?: Skill | null;
@@ -36,20 +36,20 @@ const CATEGORIES: SkillCategory[] = [
 const LEVELS: SkillLevel[] = ["Beginner", "Intermediate", "Advanced", "Expert"];
 
 const COMMON_ICONS = [
-  { label: "NestJS", val: "SiNestjs" },
-  { label: "Next.js", val: "SiNextdotjs" },
-  { label: "TypeScript", val: "SiTypescript" },
-  { label: "React", val: "FaReact" },
-  { label: "Node.js", val: "FaNodeJs" },
-  { label: "PostgreSQL", val: "SiPostgresql" },
-  { label: "MongoDB", val: "SiMongodb" },
-  { label: "Redis", val: "SiRedis" },
-  { label: "Docker", val: "FaDocker" },
-  { label: "AWS", val: "FaAws" },
-  { label: "GraphQL", val: "SiGraphql" },
-  { label: "Git", val: "FaGitAlt" },
-  { label: "Jest", val: "SiJest" },
-  { label: "General Code", val: "FaCode" },
+  { label: "NestJS (SiNestjs)", value: "SiNestjs" },
+  { label: "Next.js (SiNextdotjs)", value: "SiNextdotjs" },
+  { label: "TypeScript (SiTypescript)", value: "SiTypescript" },
+  { label: "React (FaReact)", value: "FaReact" },
+  { label: "Node.js (FaNodeJs)", value: "FaNodeJs" },
+  { label: "PostgreSQL (SiPostgresql)", value: "SiPostgresql" },
+  { label: "MongoDB (SiMongodb)", value: "SiMongodb" },
+  { label: "Redis (SiRedis)", value: "SiRedis" },
+  { label: "Docker (FaDocker)", value: "FaDocker" },
+  { label: "AWS (FaAws)", value: "FaAws" },
+  { label: "GraphQL (SiGraphql)", value: "SiGraphql" },
+  { label: "Git (FaGitAlt)", value: "FaGitAlt" },
+  { label: "Jest (SiJest)", value: "SiJest" },
+  { label: "General Code (FaCode)", value: "FaCode" },
 ];
 
 export function SkillFormDialog({
@@ -62,27 +62,27 @@ export function SkillFormDialog({
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors },
+    control,
   } = useForm<SkillFormData>({
     resolver: zodResolver(skillSchema) as any,
     defaultValues: skillToEdit
       ? {
-          name: skillToEdit.name,
-          category: skillToEdit.category,
-          level: skillToEdit.level,
-          proficiency: skillToEdit.proficiency,
-          iconName: skillToEdit.iconName || "FaCode",
-        }
+        name: skillToEdit.name,
+        category: skillToEdit.category,
+        level: skillToEdit.level,
+        proficiency: skillToEdit.proficiency,
+        iconName: skillToEdit.iconName || "FaCode",
+      }
       : {
-          name: "",
-          category: "Backend",
-          level: "Advanced",
-          proficiency: 85,
-          iconName: "SiNestjs",
-        },
+        name: "",
+        category: "Backend",
+        level: "Advanced",
+        proficiency: 85,
+        iconName: "SiNestjs",
+        iconImage: "",
+      },
   });
 
   // Reset form when modal opens or skillToEdit changes
@@ -94,6 +94,7 @@ export function SkillFormDialog({
         level: skillToEdit.level,
         proficiency: skillToEdit.proficiency,
         iconName: skillToEdit.iconName || "FaCode",
+        iconImage: skillToEdit.iconImage || "",
       });
     } else {
       reset({
@@ -102,6 +103,7 @@ export function SkillFormDialog({
         level: "Advanced",
         proficiency: 85,
         iconName: "SiNestjs",
+        iconImage: "",
       });
     }
     setServerError(null);
@@ -127,10 +129,12 @@ export function SkillFormDialog({
         throw new Error(result.error || "Failed to save skill");
       }
 
+      toast.success(isEdit ? `Skill "${data.name}" updated!` : `Skill "${data.name}" added!`);
       onSuccess(result.data);
       onClose();
     } catch (err: any) {
       console.error("Save skill error:", err);
+      toast.error(err.message || "An unexpected error occurred");
       setServerError(err.message || "An unexpected error occurred");
     } finally {
       setSubmitting(false);
@@ -169,92 +173,62 @@ export function SkillFormDialog({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
           {/* Skill Name */}
-          <div className="space-y-1.5">
-            <Label htmlFor="skill-name">Skill Name *</Label>
-            <Input
-              id="skill-name"
-              placeholder="e.g. NestJS, Docker, React, PostgreSQL"
-              {...register("name")}
-            />
-            {errors.name && (
-              <p className="text-xs text-destructive">{errors.name.message}</p>
-            )}
-          </div>
+          <RHFInput
+            name="name"
+            label="Skill Name"
+            placeholder="e.g. NestJS, Docker, React, PostgreSQL"
+            required
+            control={control}
+          />
 
           {/* Category */}
-          <div className="space-y-1.5">
-            <Label htmlFor="skill-category">Category *</Label>
-            <select
-              id="skill-category"
-              {...register("category")}
-              className="w-full h-9 rounded-lg border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-            >
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat} className="bg-background text-foreground">
-                  {cat}
-                </option>
-              ))}
-            </select>
-            {errors.category && (
-              <p className="text-xs text-destructive">{errors.category.message}</p>
-            )}
-          </div>
+          <RHFSelector
+            name="category"
+            label="Category"
+            required
+            options={CATEGORIES}
+            control={control}
+          />
 
           <div className="grid grid-cols-2 gap-3">
             {/* Level */}
-            <div className="space-y-1.5">
-              <Label htmlFor="skill-level">Proficiency Level *</Label>
-              <select
-                id="skill-level"
-                {...register("level")}
-                className="w-full h-9 rounded-lg border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-              >
-                {LEVELS.map((lvl) => (
-                  <option key={lvl} value={lvl} className="bg-background text-foreground">
-                    {lvl}
-                  </option>
-                ))}
-              </select>
-              {errors.level && (
-                <p className="text-xs text-destructive">{errors.level.message}</p>
-              )}
-            </div>
+            <RHFSelector
+              name="level"
+              label="Proficiency Level"
+              required
+              options={LEVELS}
+              control={control}
+            />
 
             {/* Proficiency (0-100) */}
-            <div className="space-y-1.5">
-              <Label htmlFor="skill-prof">Proficiency (1-100)%</Label>
-              <Input
-                id="skill-prof"
-                type="number"
-                min={1}
-                max={100}
-                placeholder="85"
-                {...register("proficiency")}
-              />
-              {errors.proficiency && (
-                <p className="text-xs text-destructive">{errors.proficiency.message}</p>
-              )}
-            </div>
+            <RHFInput
+              name="proficiency"
+              label="Proficiency (1-100)%"
+              type="number"
+              min={1}
+              max={100}
+              placeholder="85"
+              required
+              control={control}
+            />
           </div>
 
+          {/* Custom Icon Image (Cloudinary or Direct URL) */}
+          <RHFImageUpload
+            name="iconImage"
+            label="Skill Icon Image (Cloudinary PNG / SVG)"
+            folder="portfolio/skills"
+            control={control}
+          />
+
           {/* Icon Selector */}
-          <div className="space-y-1.5">
-            <Label htmlFor="skill-icon">Icon Preset</Label>
-            <select
-              id="skill-icon"
-              {...register("iconName")}
-              className="w-full h-9 rounded-lg border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-            >
-              {COMMON_ICONS.map((icon) => (
-                <option key={icon.val} value={icon.val} className="bg-background text-foreground">
-                  {icon.label} ({icon.val})
-                </option>
-              ))}
-            </select>
-            <p className="text-[11px] text-muted-foreground">
-              Selects the dynamic React Icon from react-icons.
-            </p>
-          </div>
+          <RHFSelector
+            name="iconName"
+            label="Fallback Icon Preset"
+            options={COMMON_ICONS}
+            helperText="Used if no custom icon image is uploaded"
+            control={control}
+          />
 
           <DialogFooter className="mt-6 pt-4 border-t border-border/40">
             <Button
@@ -275,4 +249,3 @@ export function SkillFormDialog({
     </Dialog>
   );
 }
-

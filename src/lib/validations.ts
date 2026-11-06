@@ -30,6 +30,7 @@ export const skillSchema = z.object({
   }),
   proficiency: z.coerce.number().min(1, "Proficiency must be 1-100").max(100, "Proficiency max is 100"),
   iconName: z.string().optional().default("FaCode"),
+  iconImage: z.string().optional(),
 });
 
 export type SkillFormData = z.infer<typeof skillSchema>;
@@ -42,4 +43,19 @@ export const contactSchema = z.object({
 });
 
 export type ContactFormData = z.infer<typeof contactSchema>;
+
+export const blogSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters").max(150, "Title is too long"),
+  slug: z.string().optional(),
+  summary: z.string().min(10, "Summary must be at least 10 characters").max(500, "Summary is too long"),
+  content: z.string().optional(),
+  imageUrl: z.string().optional(),
+  category: z.string().min(2, "Category is required"),
+  readTime: z.string().default("5 min read"),
+  published: z.boolean().default(true),
+  tags: z.string().min(1, "Please provide at least one tag (comma-separated)").or(z.array(z.string())),
+});
+
+export type BlogFormData = z.infer<typeof blogSchema>;
+
 

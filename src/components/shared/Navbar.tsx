@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, Terminal, ShieldAlert } from "lucide-react";
+import { Menu, X, Terminal, ShieldAlert, Sun, Moon } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 interface NavbarProps {
@@ -15,21 +15,44 @@ interface NavbarProps {
 export function Navbar({ onOpenAdmin }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+
+    if (typeof window !== "undefined") {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const toggleTheme = () => {
+    if (typeof window !== "undefined") {
+      const root = document.documentElement;
+      if (root.classList.contains("dark")) {
+        root.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+        setIsDark(false);
+      } else {
+        root.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+        setIsDark(true);
+      }
+    }
+  };
+
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "/#about" },
+    { name: "Skills", href: "/#skills" },
+    { name: "Projects", href: "/#projects" },
+    { name: "Experience", href: "/#experience" },
+    { name: "Blog", href: "/blog" },
+    { name: "Resume", href: "/resume" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -60,6 +83,27 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
 
           {/* Action CTAs & Admin Shortcut */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Theme Bright/Dark Mode Toggle */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleTheme}
+              title={isDark ? "Switch to Bright Mode" : "Switch to Dark Mode"}
+              className="h-8 px-2.5 gap-1.5 text-xs font-mono border-border bg-card hover:bg-muted"
+            >
+              {isDark ? (
+                <>
+                  <Sun className="h-3.5 w-3.5 text-amber-400" />
+                  <span>Bright</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="h-3.5 w-3.5 text-slate-700" />
+                  <span>Dark</span>
+                </>
+              )}
+            </Button>
+
             <Link
               href="https://github.com"
               target="_blank"
@@ -79,16 +123,6 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
               <FaLinkedin className="h-5 w-5" />
             </Link>
 
-            <Link href="/admin">
-              <Button variant="outline" size="sm" className="gap-1.5 font-mono text-xs">
-                <ShieldAlert className="h-3.5 w-3.5 text-amber-500" />
-                Manage CMS
-                <Badge variant="secondary" className="text-[10px] py-0 px-1.5 ml-1">
-                  CRUD
-                </Badge>
-              </Button>
-            </Link>
-
             <a href="#contact">
               <Button size="sm">Get In Touch</Button>
             </a>
@@ -96,11 +130,15 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
 
           {/* Mobile menu button */}
           <div className="flex items-center gap-2 md:hidden">
-            <Link href="/admin">
-              <Button variant="outline" size="icon-sm" aria-label="Admin">
-                <ShieldAlert className="h-4 w-4 text-amber-500" />
-              </Button>
-            </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="h-8 w-8 p-0"
+              title="Toggle Theme"
+            >
+              {isDark ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700" />}
+            </Button>
             <Button
               variant="ghost"
               size="icon"

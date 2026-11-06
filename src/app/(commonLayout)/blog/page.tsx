@@ -90,9 +90,11 @@ export default function BlogPage() {
                 </span>
               </div>
 
-              <h2 className="text-xl sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors mb-3">
-                {article.title}
-              </h2>
+              <Link href={`/blog/${article.slug}`}>
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors mb-3 hover:underline">
+                  {article.title}
+                </h2>
+              </Link>
 
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-6">
                 {article.summary}
@@ -110,10 +112,13 @@ export default function BlogPage() {
                   ))}
                 </div>
 
-                <div className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:translate-x-1 transition-transform">
+                <Link
+                  href={`/blog/${article.slug}`}
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:translate-x-1 transition-transform"
+                >
                   Read Article
                   <ArrowRight className="h-4 w-4" />
-                </div>
+                </Link>
               </div>
             </article>
           ))}

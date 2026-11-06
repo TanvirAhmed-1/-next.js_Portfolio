@@ -1,85 +1,111 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Layers, Server, ShieldCheck, Zap, Code2, Cpu } from "lucide-react";
+import { Layers, Server, ShieldCheck, Zap, Code2, Cpu, CheckCircle2, GitBranch } from "lucide-react";
+import { IProfile } from "@/server/modules/profile/profile.interface";
 
-export function AboutSection() {
+interface AboutSectionProps {
+  profile?: IProfile | null;
+}
+
+export function AboutSection({ profile }: AboutSectionProps) {
   const highlights = [
     {
       icon: Server,
       title: "Backend & Distributed Systems",
-      desc: "Architecting modular NestJS microservices, Redis pub/sub, RabbitMQ queues, and robust REST/GraphQL APIs.",
+      desc: "Architecting modular NestJS microservices, Redis caching, RabbitMQ queues, and robust REST/GraphQL APIs with strict SOLID principles.",
+      accent: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
     },
     {
       icon: Layers,
       title: "Full-Stack Web Engineering",
-      desc: "Building SSR/SSG apps using Next.js 16 App Router, React 19, Tailwind CSS, Base UI, and Server Actions.",
+      desc: "Building SSR/SSG apps using Next.js 16 App Router, React 19, Tailwind CSS, Base UI, and Server Actions for sub-second FCP.",
+      accent: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20",
     },
     {
       icon: ShieldCheck,
       title: "Clean Architecture & Security",
-      desc: "Implementing Domain-Driven Design (DDD), SOLID principles, OAuth2/JWT security, and strict data validation.",
+      desc: "Implementing Domain-Driven Design (DDD), Hexagonal Architecture, JWT/OAuth2 security, rate-limiting, and Zod runtime schema validation.",
+      accent: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
     },
     {
       icon: Zap,
       title: "High Performance & Scalability",
-      desc: "Database query optimization with PostgreSQL & Prisma, multi-tier caching with Redis, and containerization with Docker.",
+      desc: "PostgreSQL query optimization with B-Tree indexes, connection pooling, Docker containerization, and Cloudinary media optimization.",
+      accent: "text-amber-400 bg-amber-500/10 border-amber-500/20",
     },
   ];
 
+  const years = profile?.yearsOfExperience || 5;
+  const projectsCount = profile?.projectsCompleted || 35;
+
   const stats = [
-    { value: "5+", label: "Years Experience" },
-    { value: "35+", label: "Projects Delivered" },
-    { value: "99.9%", label: "Uptime Focus" },
-    { value: "100%", label: "Clean TypeScript" },
+    { value: `${years}+`, label: "Years Experience" },
+    { value: `${projectsCount}+`, label: "Production Apps" },
+    { value: "99.99%", label: "Uptime Focus" },
+    { value: "100%", label: "TypeScript Purity" },
   ];
 
   return (
-    <section id="about" className="py-20 bg-muted/20 border-y border-border/40">
+    <section id="about" className="py-24 bg-slate-50/70 dark:bg-card/40 border-y border-border relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center mb-16">
-          <Badge variant="outline" className="mb-3 font-mono text-xs">
-            About Me
+          <Badge variant="outline" className="mb-3 font-mono text-xs border-emerald-500/30 text-emerald-700 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-500/5">
+            Engineering Identity
           </Badge>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-foreground">
             Engineering High-Impact Digital Solutions
           </h2>
           <p className="mt-3 text-muted-foreground max-w-2xl text-base sm:text-lg">
-            A deep focus on clean code, automated testing, maintainable architectures, and modern developer tooling.
+            A relentless focus on clean code, automated testing, maintainable architectures, and resilient developer tooling.
           </p>
         </div>
 
         {/* Bio + Highlights Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
           {/* Left Column: Bio Narrative */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-xs">
+          <div className="lg:col-span-5 flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border/80 shadow-xl">
+            <div>
               <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                <Code2 className="h-5 w-5 text-primary" />
+                <Code2 className="h-5 w-5 text-emerald-400" />
                 Senior Engineering Philosophy
               </h3>
+              
               <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
-                I believe software engineering is about solving complex domain problems with the simplest, most resilient architecture possible. My journey spans developing enterprise microservices in <strong className="text-foreground">NestJS</strong>, building modern interactive web experiences with <strong className="text-foreground">Next.js</strong>, and optimizing databases for millions of queries.
+                {profile?.about ||
+                  "I believe software engineering is about solving complex domain problems with the simplest, most resilient architecture possible. My journey spans developing enterprise microservices in NestJS, building modern interactive web experiences with Next.js, and optimizing databases for millions of queries."}
               </p>
-              <p className="mt-3 text-muted-foreground leading-relaxed text-sm sm:text-base">
-                Whether deploying containerized applications with Docker or ensuring seamless CI/CD delivery to Vercel and AWS, I prioritize code readability, comprehensive automated testing, and developer ergonomics.
-              </p>
-
-              {/* Quick stats strip */}
-              <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-border/40">
-                {stats.map((s, idx) => (
-                  <div key={idx} className="flex flex-col">
-                    <span className="text-2xl sm:text-3xl font-extrabold text-foreground font-mono">
-                      {s.value}
-                    </span>
-                    <span className="text-xs text-muted-foreground font-medium">
-                      {s.label}
-                    </span>
-                  </div>
-                ))}
+              
+              <div className="mt-4 pt-4 border-t border-border/40 space-y-2 text-xs font-mono text-muted-foreground">
+                <div className="flex items-center gap-2 text-foreground">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  <span>Domain-Driven Design (DDD) & Modular Systems</span>
+                </div>
+                <div className="flex items-center gap-2 text-foreground">
+                  <CheckCircle2 className="h-4 w-4 text-cyan-400" />
+                  <span>Zero-Downtime Deployments & Dockerized Stacks</span>
+                </div>
+                <div className="flex items-center gap-2 text-foreground">
+                  <CheckCircle2 className="h-4 w-4 text-indigo-400" />
+                  <span>PostgreSQL Index Tuning & High-Throughput Caching</span>
+                </div>
               </div>
+            </div>
+
+            {/* Quick stats strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 pt-6 border-t border-border/60">
+              {stats.map((s, idx) => (
+                <div key={idx} className="flex flex-col">
+                  <span className="text-2xl font-black text-foreground font-mono">
+                    {s.value}
+                  </span>
+                  <span className="text-[11px] text-muted-foreground font-medium">
+                    {s.label}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -88,28 +114,31 @@ export function AboutSection() {
             {highlights.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <Card
+                <div
                   key={idx}
-                  className="p-6 transition-all duration-200 hover:shadow-md hover:border-primary/40 bg-card/80 backdrop-blur-xs flex flex-col justify-between"
+                  className="p-6 rounded-2xl bg-card border border-border/80 hover:border-emerald-500/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div>
-                    <div className="h-10 w-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4">
+                    <div className={`h-11 w-11 rounded-xl flex items-center justify-center mb-4 border ${item.accent}`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <h4 className="font-semibold text-base text-foreground mb-2">
+                    <h4 className="font-bold text-base text-foreground mb-2 group-hover:text-emerald-400 transition-colors">
                       {item.title}
                     </h4>
                     <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
-                </Card>
+                  <div className="mt-4 pt-3 border-t border-border/30 flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
+                    <GitBranch className="h-3 w-3 text-emerald-400" /> Production Tested
+                  </div>
+                </div>
               );
             })}
           </div>
+
         </div>
       </div>
     </section>
   );
 }
-

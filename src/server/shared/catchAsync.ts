@@ -17,6 +17,7 @@ export const catchAsync = (fn: AsyncRouteHandler) => {
             statusCode: error.statusCode,
             success: false,
             message: error.message,
+            error: error.message,
             data: null,
           },
           { status: error.statusCode }
@@ -29,6 +30,7 @@ export const catchAsync = (fn: AsyncRouteHandler) => {
             statusCode: 400,
             success: false,
             message: "Validation Error",
+            error: "Validation Error",
             errors: error.flatten().fieldErrors,
             data: null,
           },
@@ -41,6 +43,7 @@ export const catchAsync = (fn: AsyncRouteHandler) => {
           statusCode: 500,
           success: false,
           message: error?.message || "Internal Server Error",
+          error: error?.message || "Internal Server Error",
           data: null,
         },
         { status: 500 }
