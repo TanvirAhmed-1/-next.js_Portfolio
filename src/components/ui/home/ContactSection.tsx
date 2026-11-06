@@ -33,11 +33,25 @@ export function ContactSection() {
 
   const onSubmit = async (data: ContactFormData) => {
     setLoading(true);
-    // Simulate server action / api submission
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setLoading(false);
-    setSubmitted(true);
-    reset();
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (res.ok && result.success) {
+        setSubmitted(true);
+        reset();
+      } else {
+        alert(result.message || "Failed to send message");
+      }
+    } catch (e) {
+      console.error("Contact submit error:", e);
+      alert("Failed to send message. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

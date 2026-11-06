@@ -11,7 +11,7 @@
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@hookform/resolvers": "^7.0.3",
-    "@prisma/client": "^7.10.1",
+    "@prisma/client": "^6.19.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cn": "^0.5.2",
@@ -33,7 +33,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.5",
-    "prisma": "^8.0.0-rc.31",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
