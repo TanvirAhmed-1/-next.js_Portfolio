@@ -52,6 +52,21 @@ export interface Experience {
   skills: string[];
 }
 
+export interface Education {
+  id: string;
+  degree: string;
+  field: string;
+  institution: string;
+  location: string;
+  period: string;
+  grade: string;
+  status?: string;
+  description: string;
+  highlights: string[];
+  order?: number;
+  createdAt?: string;
+}
+
 export interface ProfileInfo {
   name: string;
   title: string;
@@ -69,4 +84,22 @@ export interface ProfileInfo {
   yearsOfExperience?: number;
   projectsCompleted?: number;
 }
+
+export interface Service {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  features: string[];
+  icon?: string;
+  iconImage?: string;
+  pricing?: string;
+  deliveryTime?: string;
+  status: "ACTIVE" | "INACTIVE";
+  showOnHome: boolean;
+  featured: boolean;
+  order: number;
+  createdAt: string;
+}
+
 

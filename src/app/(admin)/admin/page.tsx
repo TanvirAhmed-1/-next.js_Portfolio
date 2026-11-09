@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Project, Skill, Blog } from "@/types";
+import { Project, Skill, Blog, Education } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProjectFormDialog } from "@/components/admin/ProjectFormDialog";
 import { SkillFormDialog } from "@/components/admin/SkillFormDialog";
 import { BlogFormDialog } from "@/components/admin/BlogFormDialog";
+import { EducationFormDialog } from "@/components/admin/EducationFormDialog";
 import { ProfileFormTab } from "@/components/admin/ProfileFormTab";
 import { TechIcon } from "@/components/TechIcon";
 import {
@@ -32,6 +33,15 @@ import {
   LogOut,
   Lock,
   KeyRound,
+  Briefcase,
+  ShoppingCart,
+  Smartphone,
+  Globe,
+  Eye,
+  EyeOff,
+  Sparkles,
+  GraduationCap,
+  MapPin,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import toast from "react-hot-toast";
@@ -49,8 +59,9 @@ interface ContactMessage {
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [currentUser, setCurrentUser] = useState<{ name?: string; email?: string; role?: string } | null>(null);
-  const [activeTab, setActiveTab] = useState<"projects" | "blogs" | "skills" | "messages" | "profile">("projects");
+  const [activeTab, setActiveTab] = useState<"projects" | "education" | "blogs" | "skills" | "messages" | "profile">("projects");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [educations, setEducations] = useState<Education[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
@@ -60,6 +71,9 @@ export default function AdminPage() {
   // Dialog states
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
+
+  const [educationDialogOpen, setEducationDialogOpen] = useState(false);
+  const [educationToEdit, setEducationToEdit] = useState<Education | null>(null);
 
   const [skillDialogOpen, setSkillDialogOpen] = useState(false);
   const [skillToEdit, setSkillToEdit] = useState<Skill | null>(null);
@@ -72,25 +86,44 @@ export default function AdminPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [projRes, skillRes, blogRes, msgRes] = await Promise.all([
+      const [projRes, skillRes, blogRes, msgRes, eduRes] = await Promise.all([
         fetch("/api/projects"),
         fetch("/api/skills"),
         fetch("/api/blogs?all=true"),
         fetch("/api/contact"),
+        fetch("/api/educations"),
       ]);
       const projData = await projRes.json();
       const skillData = await skillRes.json();
       const blogData = await blogRes.json();
       const msgData = await msgRes.json();
+      const eduData = await eduRes.json();
 
       if (projData.success) setProjects(projData.data || []);
       if (skillData.success) setSkills(skillData.data || []);
       if (blogData.success) setBlogs(blogData.data || []);
       if (msgData.success) setMessages(msgData.data || []);
+      if (eduData.success) setEducations(eduData.data || []);
     } catch (e) {
       console.error("Failed to fetch admin data", e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteEducation = async (id: string, degree: string) => {
+    if (!confirm(`Are you sure you want to delete education: "${degree}"?`)) return;
+    try {
+      const res = await fetch(`/api/educations/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setEducations((prev) => prev.filter((e) => e.id !== id));
+        toast.success(`Education "${degree}" deleted`);
+      } else {
+        toast.error(data.error || "Failed to delete education");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to delete education");
     }
   };
 
@@ -207,6 +240,13 @@ export default function AdminPage() {
       p.title.toLowerCase().includes(search.toLowerCase()) ||
       p.category.toLowerCase().includes(search.toLowerCase()) ||
       p.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  const filteredEducations = educations.filter(
+    (e) =>
+      e.degree.toLowerCase().includes(search.toLowerCase()) ||
+      e.institution.toLowerCase().includes(search.toLowerCase()) ||
+      (e.field || "").toLowerCase().includes(search.toLowerCase())
   );
 
   const filteredBlogs = blogs.filter(
@@ -330,6 +370,17 @@ export default function AdminPage() {
               Projects ({projects.length})
             </button>
             <button
+              onClick={() => setActiveTab("education")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === "education"
+                  ? "bg-primary text-primary-foreground shadow-xs"
+                  : "bg-transparent text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              <GraduationCap className="h-4 w-4" />
+              Education ({educations.length})
+            </button>
+            <button
               onClick={() => setActiveTab("blogs")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "blogs"
@@ -403,6 +454,19 @@ export default function AdminPage() {
               >
                 <Plus className="h-4 w-4" />
                 Add Project
+              </Button>
+            )}
+
+            {activeTab === "education" && (
+              <Button
+                onClick={() => {
+                  setEducationToEdit(null);
+                  setEducationDialogOpen(true);
+                }}
+                className="gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+              >
+                <Plus className="h-4 w-4" />
+                Add Education
               </Button>
             )}
 
@@ -550,6 +614,106 @@ export default function AdminPage() {
           </div>
         )}
 
+        {/* Tab: Education & Qualifications Table */}
+        {activeTab === "education" && (
+          <div className="bg-card border border-border/60 rounded-xl overflow-hidden shadow-xs">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-muted/50 border-b border-border/60 text-xs uppercase font-mono text-muted-foreground">
+                  <tr>
+                    <th className="px-4 py-3">Degree &amp; Department</th>
+                    <th className="px-4 py-3">Institution &amp; Location</th>
+                    <th className="px-4 py-3">Duration / Session</th>
+                    <th className="px-4 py-3">Result &amp; Status</th>
+                    <th className="px-4 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/40">
+                  {filteredEducations.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">
+                        No education records found. Click &quot;+ Add Education&quot; above to add one!
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredEducations.map((edu) => (
+                      <tr key={edu.id} className="hover:bg-muted/30 transition-colors">
+                        <td className="px-4 py-3 font-medium">
+                          <div className="flex items-start gap-3">
+                            <div className="h-9 w-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                              <GraduationCap className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-foreground font-semibold">
+                                {edu.degree}
+                              </span>
+                              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-mono">
+                                {edu.field}
+                              </span>
+                              <span className="text-xs text-muted-foreground line-clamp-1 max-w-sm mt-0.5">
+                                {edu.description}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex flex-col text-xs">
+                            <span className="font-semibold text-foreground">{edu.institution}</span>
+                            <span className="text-muted-foreground flex items-center gap-1 mt-0.5">
+                              <MapPin className="h-3 w-3" />
+                              {edu.location}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
+                          {edu.period}
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex flex-col gap-1">
+                            <Badge variant="outline" className="font-mono text-xs w-fit border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5">
+                              {edu.grade}
+                            </Badge>
+                            {edu.status && (
+                              <span className="text-[10px] font-mono text-muted-foreground">
+                                {edu.status}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="flex items-center justify-end gap-1">
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8"
+                              onClick={() => {
+                                setEducationToEdit(edu);
+                                setEducationDialogOpen(true);
+                              }}
+                              title="Edit Education"
+                            >
+                              <Edit2 className="h-3.5 w-3.5" />
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8 text-destructive hover:bg-destructive/10"
+                              onClick={() => handleDeleteEducation(edu.id, edu.degree)}
+                              title="Delete Education"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {/* Tab 2: Blogs Table */}
         {activeTab === "blogs" && (
           <div className="bg-card border border-border/60 rounded-xl overflow-hidden shadow-xs">
@@ -680,7 +844,11 @@ export default function AdminPage() {
                         <td className="px-4 py-3 font-medium">
                           <div className="flex items-center gap-2.5">
                             <div className="h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center shrink-0">
-                              <TechIcon name={s.iconName || s.name} className="h-4 w-4 text-foreground" />
+                              {s.iconImage ? (
+                                <img src={s.iconImage} alt={s.name} className="h-5 w-5 object-contain" />
+                              ) : (
+                                <TechIcon name={s.iconName || s.name} className="h-4 w-4 text-foreground" />
+                              )}
                             </div>
                             <span className="text-foreground font-semibold">{s.name}</span>
                           </div>
@@ -841,6 +1009,18 @@ export default function AdminPage() {
         onClose={() => {
           setSkillDialogOpen(false);
           setSkillToEdit(null);
+        }}
+        onSuccess={() => {
+          fetchData();
+        }}
+      />
+
+      <EducationFormDialog
+        isOpen={educationDialogOpen}
+        educationToEdit={educationToEdit}
+        onClose={() => {
+          setEducationDialogOpen(false);
+          setEducationToEdit(null);
         }}
         onSuccess={() => {
           fetchData();

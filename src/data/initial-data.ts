@@ -1,4 +1,4 @@
-import { Project, Skill, ProfileInfo, Experience } from "@/types";
+import { Project, Skill, ProfileInfo, Experience, Education } from "@/types";
 
 export const initialProfile: ProfileInfo = {
   name: "Tanvir Ahmed",
@@ -23,6 +23,7 @@ export const initialSkills: Skill[] = [
     level: "Expert",
     proficiency: 95,
     iconName: "SiNestjs",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -32,6 +33,7 @@ export const initialSkills: Skill[] = [
     level: "Expert",
     proficiency: 92,
     iconName: "FaNodeJs",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -41,6 +43,17 @@ export const initialSkills: Skill[] = [
     level: "Expert",
     proficiency: 95,
     iconName: "SiTypescript",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  {
+    id: "skill-17",
+    name: "JavaScript (ES6+)",
+    category: "Backend",
+    level: "Expert",
+    proficiency: 96,
+    iconName: "SiJavascript",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -50,6 +63,17 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 90,
     iconName: "SiGraphql",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  {
+    id: "skill-18",
+    name: "Prisma ORM",
+    category: "Backend",
+    level: "Advanced",
+    proficiency: 91,
+    iconName: "SiPrisma",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   // Frontend
@@ -60,6 +84,7 @@ export const initialSkills: Skill[] = [
     level: "Expert",
     proficiency: 95,
     iconName: "SiNextdotjs",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -69,6 +94,7 @@ export const initialSkills: Skill[] = [
     level: "Expert",
     proficiency: 94,
     iconName: "FaReact",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -78,6 +104,7 @@ export const initialSkills: Skill[] = [
     level: "Expert",
     proficiency: 96,
     iconName: "SiTailwindcss",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -87,6 +114,7 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 88,
     iconName: "SiRedux",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   // Database
@@ -97,6 +125,7 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 90,
     iconName: "SiPostgresql",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -106,6 +135,7 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 88,
     iconName: "SiMongodb",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -115,6 +145,7 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 85,
     iconName: "SiRedis",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   // DevOps & Cloud
@@ -125,6 +156,7 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 85,
     iconName: "FaDocker",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -134,6 +166,7 @@ export const initialSkills: Skill[] = [
     level: "Intermediate",
     proficiency: 80,
     iconName: "FaGithub",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -143,6 +176,7 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 88,
     iconName: "FaAws",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   // Tools
@@ -153,6 +187,7 @@ export const initialSkills: Skill[] = [
     level: "Advanced",
     proficiency: 84,
     iconName: "SiJest",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
   {
@@ -162,6 +197,7 @@ export const initialSkills: Skill[] = [
     level: "Expert",
     proficiency: 92,
     iconName: "FaGitAlt",
+    iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
 ];
@@ -276,5 +312,64 @@ export const experiences: Experience[] = [
     description:
       "Built responsive client portals and dashboards using React, Node.js, and modern CSS frameworks with cross-browser compatibility.",
     skills: ["React", "JavaScript", "Express", "Tailwind CSS", "Git"],
+  },
+];
+
+export const educations: Education[] = [
+  {
+    id: "edu-1",
+    degree: "Bachelor of Science (B.Sc)",
+    field: "BSc in Computer Science and Engineering.",
+    institution: "Northern University Bangladesh",
+    location: "Dhaka, Bangladesh",
+    period: "02/01/2024 – Present",
+    grade: "Running (B.Sc in CSE)",
+    status: "Ongoing",
+    description:
+      "Pursuing Bachelor of Science in Computer Science and Engineering at Northern University Bangladesh, focusing on software engineering, distributed systems, algorithms, and database architecture.",
+    highlights: [
+      "BSc in Computer Science and Engineering",
+      "Software Architecture & Distributed Systems",
+      "Data Structures, Algorithms & DBMS",
+      "Full-Stack & Backend System Engineering",
+    ],
+    order: 1,
+  },
+  {
+    id: "edu-2",
+    degree: "Diploma in Engineering (4 Years)",
+    field: "Diploma in Computer Technology",
+    institution: "Naogaon Polytechnic Institute, Naogaon",
+    location: "Naogaon, Bangladesh",
+    period: "28/03/2017 – 26/04/2021",
+    grade: "CGPA: 3.67 (Passed in 2021)",
+    status: "Completed",
+    description:
+      "Diploma in Computer Technology, Passed in 2021 with CGPA 3.67. Built strong foundations in programming, computer networks, database design, and software development.",
+    highlights: [
+      "Diploma in Computer Technology",
+      "Passed in 2021 • CGPA 3.67",
+      "Computer Programming & Web Engineering",
+      "Networking, Hardware & Database Systems",
+    ],
+    order: 2,
+  },
+  {
+    id: "edu-3",
+    degree: "Secondary School Certificate (SSC)",
+    field: "Science Group",
+    institution: "Badalgachi Govt. Model Pilot High School",
+    location: "Badalgachhi, Naogaon",
+    period: "01/01/2012 – 20/03/2017",
+    grade: "GPA: 4.68 in Science Group",
+    status: "Completed",
+    description:
+      "Completed Secondary School Certificate (SSC) in Science Group with GPA 4.68 from Badalgachi Govt. Model Pilot High School.",
+    highlights: [
+      "GPA: 4.68 in Science Group",
+      "Mathematics, Physics & Chemistry",
+      "Information & Communication Technology (ICT)",
+    ],
+    order: 3,
   },
 ];

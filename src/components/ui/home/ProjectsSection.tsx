@@ -83,33 +83,33 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
   };
 
   return (
-    <section id="projects" className="py-20 bg-muted/20 border-t border-border/40">
+    <section id="projects" className="py-24 bg-slate-50/90 dark:bg-slate-950/50 border-b border-slate-200/80 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <Badge variant="outline" className="mb-3 font-mono text-xs">
+            <Badge variant="outline" className="mb-3 font-mono text-xs border-emerald-200 text-emerald-800 bg-emerald-50 dark:border-emerald-500/30 dark:text-emerald-400 dark:bg-emerald-500/5 px-3 py-1">
               Selected Works
             </Badge>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
               Production Applications &amp; Microservices
             </h2>
-            <p className="mt-2 text-muted-foreground text-sm sm:text-base max-w-xl">
+            <p className="mt-3 text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-xl">
               Architectural case studies, full-stack microservices, and interactive web applications.
             </p>
           </div>
         </div>
 
         {/* Category Filter Pills (Dynamic) */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-border/40 pb-4">
+        <div className="flex flex-wrap gap-2 mb-10 border-b border-slate-200/80 dark:border-slate-800 pb-5">
           {categoriesList.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition-all ${
                 selectedCategory === cat
-                  ? "bg-primary text-primary-foreground shadow-xs"
-                  : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
+                  : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/90 dark:border-slate-800 hover:border-emerald-500/50 hover:text-emerald-700 dark:hover:text-emerald-400 shadow-2xs"
               }`}
             >
               {cat}
@@ -120,10 +120,10 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
 
         {/* Projects Grid */}
         {filteredProjects.length === 0 ? (
-          <div className="p-12 text-center rounded-xl border border-dashed border-border/60 bg-muted/10">
-            <FolderGit2 className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <p className="text-sm font-medium text-foreground">No projects found in this category</p>
-            <p className="text-xs text-muted-foreground mt-1">
+          <div className="p-12 text-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <FolderGit2 className="h-8 w-8 text-slate-400 mx-auto mb-2" />
+            <p className="text-sm font-bold text-slate-900 dark:text-white">No projects found in this category</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Select another category filter to explore more work.
             </p>
           </div>
@@ -132,10 +132,10 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
             {filteredProjects.map((project) => (
               <article
                 key={project.id}
-                className="group relative flex flex-col rounded-xl bg-card border border-border/60 overflow-hidden shadow-xs hover:shadow-lg hover:border-primary/40 transition-all"
+                className="group relative flex flex-col rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-emerald-500/50 transition-all duration-300"
               >
                 {/* Image Container with Badges */}
-                <div className="relative aspect-video w-full overflow-hidden bg-muted">
+                <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <Image
                     src={project.imageUrl}
                     alt={project.title}
@@ -143,15 +143,15 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-80" />
 
                   {/* Top Left Category / Featured Badge */}
                   <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                    <span className="px-2.5 py-1 rounded-md text-[11px] font-medium font-mono bg-black/75 backdrop-blur-md text-white border border-white/10">
+                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-semibold font-mono bg-slate-900/80 backdrop-blur-md text-white border border-white/15">
                       {project.category}
                     </span>
                     {project.featured && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium bg-amber-500/90 text-white shadow-xs">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-amber-500 text-white shadow-xs">
                         <Sparkles className="h-3 w-3" />
                         Featured
                       </span>
@@ -160,40 +160,39 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
                 </div>
 
                 {/* Content */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
+                <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
                     <Link href={`/projects/${project.slug}`}>
-                      <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-2 hover:underline">
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-1 mb-2 hover:underline">
                         {project.title}
                       </h3>
                     </Link>
-                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 leading-relaxed mb-4">
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
                       {project.description}
                     </p>
 
                     {/* Tags */}
-                    <div className="flex flex-wrap gap-1.5 mb-4">
+                    <div className="flex flex-wrap gap-1.5 mb-5">
                       {project.tags.map((tag, idx) => (
-                        <Badge
+                        <span
                           key={idx}
-                          variant="secondary"
-                          className="text-[10px] py-0 px-2 font-mono font-normal"
+                          className="text-[11px] py-0.5 px-2.5 rounded-md font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/70 dark:border-slate-700"
                         >
                           {tag}
-                        </Badge>
+                        </span>
                       ))}
                     </div>
                   </div>
 
                   {/* Links / Actions footer */}
-                  <div className="pt-3 border-t border-border/40 flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-3">
                       {project.liveUrl && (
                         <Link
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 transition-colors"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
                           Live Demo
@@ -204,7 +203,7 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors ml-2"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                         >
                           <FaGithub className="h-3.5 w-3.5" />
                           Code
@@ -215,10 +214,10 @@ export function ProjectsSection({ initialProjects }: ProjectsSectionProps) {
                     <Link href={`/projects/${project.slug}`}>
                       <Button
                         size="xs"
-                        variant="ghost"
-                        className="text-xs text-muted-foreground hover:text-foreground"
+                        variant="outline"
+                        className="text-xs font-semibold border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400"
                       >
-                        <Info className="h-3.5 w-3.5 mr-1" />
+                        <Info className="h-3.5 w-3.5 mr-1 text-emerald-600 dark:text-emerald-400" />
                         Case Study
                       </Button>
                     </Link>

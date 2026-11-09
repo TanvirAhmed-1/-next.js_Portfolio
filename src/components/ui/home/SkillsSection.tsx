@@ -23,76 +23,78 @@ interface SkillsSectionProps {
 // Fallback/starter default skill items if not yet in database
 const DEFAULT_STACK_ITEMS = {
   languages: [
-    { id: "lang-1", name: "JavaScript (ES6+)", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiJavascript" },
-    { id: "lang-2", name: "TypeScript", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiTypescript" },
-    { id: "lang-3", name: "C Language", category: "Backend" as SkillCategory, level: "Advanced" as const, proficiency: 85, iconName: "FaCode" },
+    { id: "lang-1", name: "JavaScript (ES6+)", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiJavascript", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" },
+    { id: "lang-2", name: "TypeScript", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiTypescript", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" },
+    { id: "lang-3", name: "C Language", category: "Backend" as SkillCategory, level: "Advanced" as const, proficiency: 85, iconName: "FaCode", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
   ],
   frontend: [
-    { id: "fe-1", name: "React.js", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 94, iconName: "FaReact" },
-    { id: "fe-2", name: "Next.js", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiNextdotjs" },
-    { id: "fe-3", name: "Redux Toolkit", category: "Frontend" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiRedux" },
-    { id: "fe-4", name: "Tailwind CSS", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 96, iconName: "SiTailwindcss" },
-    { id: "fe-5", name: "HTML5", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 98, iconName: "FaHtml5" },
-    { id: "fe-6", name: "CSS3", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "FaCss3Alt" },
+    { id: "fe-1", name: "React.js", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 94, iconName: "FaReact", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" },
+    { id: "fe-2", name: "Next.js", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiNextdotjs", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" },
+    { id: "fe-3", name: "Redux Toolkit", category: "Frontend" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiRedux", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg" },
+    { id: "fe-4", name: "Tailwind CSS", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 96, iconName: "SiTailwindcss", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" },
+    { id: "fe-5", name: "HTML5", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 98, iconName: "FaHtml5", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" },
+    { id: "fe-6", name: "CSS3", category: "Frontend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "FaCss3Alt", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
   ],
   backend: [
-    { id: "be-1", name: "Node.js", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "FaNodeJs" },
-    { id: "be-2", name: "Express.js", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 90, iconName: "SiExpress" },
-    { id: "be-3", name: "NestJS", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiNestjs" },
-    { id: "be-4", name: "Prisma ORM", category: "Backend" as SkillCategory, level: "Advanced" as const, proficiency: 90, iconName: "SiPrisma" },
-    { id: "be-5", name: "RESTful APIs", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 94, iconName: "SiGraphql" },
+    { id: "be-1", name: "Node.js", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "FaNodeJs", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" },
+    { id: "be-2", name: "Express.js", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 90, iconName: "SiExpress", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" },
+    { id: "be-3", name: "NestJS", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "SiNestjs", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg" },
+    { id: "be-4", name: "Prisma ORM", category: "Backend" as SkillCategory, level: "Advanced" as const, proficiency: 90, iconName: "SiPrisma", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg" },
+    { id: "be-5", name: "RESTful APIs", category: "Backend" as SkillCategory, level: "Expert" as const, proficiency: 94, iconName: "SiGraphql", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg" },
   ],
   database: [
-    { id: "db-1", name: "MongoDB", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiMongodb" },
-    { id: "db-2", name: "Mongoose", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiMongodb" },
-    { id: "db-3", name: "PostgreSQL", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 90, iconName: "SiPostgresql" },
-    { id: "db-4", name: "MySQL", category: "Database" as SkillCategory, level: "Intermediate" as const, proficiency: 82, iconName: "SiMysql" },
-    { id: "db-5", name: "Redis", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 85, iconName: "SiRedis" },
+    { id: "db-1", name: "MongoDB", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiMongodb", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" },
+    { id: "db-2", name: "Mongoose", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiMongodb", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongoose/mongoose-original.svg" },
+    { id: "db-3", name: "PostgreSQL", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 90, iconName: "SiPostgresql", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" },
+    { id: "db-4", name: "MySQL", category: "Database" as SkillCategory, level: "Intermediate" as const, proficiency: 82, iconName: "SiMysql", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" },
+    { id: "db-5", name: "Redis", category: "Database" as SkillCategory, level: "Advanced" as const, proficiency: 85, iconName: "SiRedis", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg" },
   ],
   tools: [
-    { id: "tool-1", name: "Git", category: "Tools & Others" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "FaGitAlt" },
-    { id: "tool-2", name: "GitHub", category: "Tools & Others" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "FaGithub" },
-    { id: "tool-3", name: "VS Code", category: "Tools & Others" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "FaCode" },
-    { id: "tool-4", name: "Docker", category: "DevOps & Cloud" as SkillCategory, level: "Advanced" as const, proficiency: 85, iconName: "FaDocker" },
-    { id: "tool-5", name: "Figma", category: "Tools & Others" as SkillCategory, level: "Intermediate" as const, proficiency: 78, iconName: "FaFigma" },
-    { id: "tool-6", name: "Firebase", category: "DevOps & Cloud" as SkillCategory, level: "Intermediate" as const, proficiency: 80, iconName: "SiFirebase" },
-    { id: "tool-7", name: "Vercel", category: "DevOps & Cloud" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "SiVercel" },
-    { id: "tool-8", name: "Netlify", category: "DevOps & Cloud" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiNetlify" },
-    { id: "tool-9", name: "Cloudinary", category: "DevOps & Cloud" as SkillCategory, level: "Advanced" as const, proficiency: 90, iconName: "SiCloudinary" },
+    { id: "tool-1", name: "Git", category: "Tools & Others" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "FaGitAlt", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" },
+    { id: "tool-2", name: "GitHub", category: "Tools & Others" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "FaGithub", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" },
+    { id: "tool-3", name: "VS Code", category: "Tools & Others" as SkillCategory, level: "Expert" as const, proficiency: 95, iconName: "FaCode", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" },
+    { id: "tool-4", name: "Docker", category: "DevOps & Cloud" as SkillCategory, level: "Advanced" as const, proficiency: 85, iconName: "FaDocker", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" },
+    { id: "tool-5", name: "Figma", category: "Tools & Others" as SkillCategory, level: "Intermediate" as const, proficiency: 78, iconName: "FaFigma", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" },
+    { id: "tool-6", name: "Firebase", category: "DevOps & Cloud" as SkillCategory, level: "Intermediate" as const, proficiency: 80, iconName: "SiFirebase", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg" },
+    { id: "tool-7", name: "Vercel", category: "DevOps & Cloud" as SkillCategory, level: "Expert" as const, proficiency: 92, iconName: "SiVercel", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg" },
+    { id: "tool-8", name: "Netlify", category: "DevOps & Cloud" as SkillCategory, level: "Advanced" as const, proficiency: 88, iconName: "SiNetlify", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/netlify/netlify-original.svg" },
+    { id: "tool-9", name: "Cloudinary", category: "DevOps & Cloud" as SkillCategory, level: "Advanced" as const, proficiency: 90, iconName: "SiCloudinary", iconImage: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg" },
   ],
 };
 
-const getSkillDotColor = (name: string): string => {
+const getSkillDefaultIcon = (name: string): string => {
   const n = name.toLowerCase();
-  if (n.includes("type") || n.includes("ts")) return "bg-blue-500";
-  if (n.includes("java") || n.includes("js")) return "bg-amber-400";
-  if (n.includes("c lang") || n.includes("c++") || n.includes("c#")) return "bg-indigo-400";
-  if (n.includes("react")) return "bg-cyan-400";
-  if (n.includes("next")) return "bg-slate-300";
-  if (n.includes("redux")) return "bg-purple-400";
-  if (n.includes("tailwind")) return "bg-teal-400";
-  if (n.includes("html")) return "bg-orange-400";
-  if (n.includes("css")) return "bg-blue-400";
-  if (n.includes("node")) return "bg-emerald-500";
-  if (n.includes("express")) return "bg-slate-300";
-  if (n.includes("nest")) return "bg-red-500";
-  if (n.includes("prisma")) return "bg-cyan-300";
-  if (n.includes("rest") || n.includes("api") || n.includes("graph")) return "bg-amber-500";
-  if (n.includes("mongo") && !n.includes("mongoose")) return "bg-green-500";
-  if (n.includes("mongoose")) return "bg-red-400";
-  if (n.includes("postgre")) return "bg-sky-500";
-  if (n.includes("mysql")) return "bg-orange-400";
-  if (n.includes("redis")) return "bg-rose-500";
-  if (n.includes("git") && !n.includes("hub")) return "bg-orange-600";
-  if (n.includes("github")) return "bg-slate-100";
-  if (n.includes("code") || n.includes("vs")) return "bg-blue-500";
-  if (n.includes("docker")) return "bg-sky-400";
-  if (n.includes("figma")) return "bg-purple-500";
-  if (n.includes("fire")) return "bg-amber-500";
-  if (n.includes("vercel")) return "bg-white";
-  if (n.includes("cloud")) return "bg-blue-400";
-  if (n.includes("netli")) return "bg-teal-300";
-  return "bg-emerald-400";
+  if (n.includes("type") || n.includes("ts")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg";
+  if (n.includes("java") || n.includes("js")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg";
+  if (n.includes("c lang") || n.includes("c++") || n.includes("c#")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg";
+  if (n.includes("react")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg";
+  if (n.includes("next")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg";
+  if (n.includes("redux") || n.includes("zustand")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg";
+  if (n.includes("tailwind")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg";
+  if (n.includes("html")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg";
+  if (n.includes("css")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg";
+  if (n.includes("node")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg";
+  if (n.includes("express")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg";
+  if (n.includes("nest")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg";
+  if (n.includes("postgre")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg";
+  if (n.includes("prisma")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg";
+  if (n.includes("rest") || n.includes("api") || n.includes("graph")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg";
+  if (n.includes("mongoose")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongoose/mongoose-original.svg";
+  if (n.includes("mongo")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg";
+  if (n.includes("mysql")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg";
+  if (n.includes("redis")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg";
+  if (n.includes("action") || n.includes("ci/cd")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg";
+  if (n.includes("github")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg";
+  if (n.includes("git")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg";
+  if (n.includes("jest") || n.includes("test")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg";
+  if (n.includes("code") || n.includes("vs")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg";
+  if (n.includes("docker")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg";
+  if (n.includes("figma")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg";
+  if (n.includes("fire")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg";
+  if (n.includes("aws") || n.includes("vercel")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg";
+  if (n.includes("netli")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/netlify/netlify-original.svg";
+  if (n.includes("cloud")) return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg";
+  return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg";
 };
 
 interface SkillItem {
@@ -129,8 +131,7 @@ export function SkillsSection({ initialSkills }: SkillsSectionProps) {
         n.includes("javascript") ||
         n.includes("typescript") ||
         n.includes("c lang") ||
-        n.includes("python") ||
-        n.includes("sql")
+        n.includes("python")
       );
     };
 
@@ -186,129 +187,136 @@ export function SkillsSection({ initialSkills }: SkillsSectionProps) {
   };
 
   const renderSkillPill = (skill: SkillItem) => {
-    const dotColor = getSkillDotColor(skill.name);
-    const isCustom = !skill.id.startsWith("lang-") && !skill.id.startsWith("fe-") && !skill.id.startsWith("be-") && !skill.id.startsWith("db-") && !skill.id.startsWith("tool-");
+    const iconSrc = skill.iconImage || getSkillDefaultIcon(skill.name);
 
     return (
       <div
         key={skill.id}
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/90 border border-slate-200/90 text-slate-800 font-mono text-xs hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700 dark:bg-muted/60 dark:border-border/60 dark:text-foreground dark:hover:border-emerald-500/50 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-300 transition-all cursor-default shadow-xs"
+        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/90 text-slate-800 font-mono text-xs font-medium hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-800 dark:bg-slate-800/70 dark:border-slate-700/80 dark:text-slate-200 dark:hover:border-emerald-500/50 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-300 transition-all cursor-default shadow-2xs"
       >
-        {skill.iconImage ? (
-          <img
-            src={skill.iconImage}
-            alt={skill.name}
-            className="w-4 h-4 object-contain rounded-xs shrink-0"
-          />
-        ) : (
-          <span className={`w-2 h-2 rounded-full shrink-0 ${dotColor}`} />
-        )}
+        <img
+          src={iconSrc}
+          alt={skill.name}
+          className="w-4 h-4 object-contain shrink-0"
+        />
         <span>{skill.name}</span>
       </div>
     );
   };
 
   return (
-    <section className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-20 relative" id="skills">
-      {/* Section Header */}
-      <div className="flex flex-col items-center text-center mb-14">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-          <span className="font-mono text-xs text-emerald-400 uppercase tracking-widest font-semibold">
-            Technical Arsenal
-          </span>
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-black text-foreground tracking-tight mb-3">
-          My Skills &amp; Stack
-        </h2>
-        <p className="text-sm sm:text-base text-muted-foreground max-w-xl leading-relaxed">
-          A curated ecosystem of modern web technologies, programming languages, and cloud tools I leverage to build scalable, reliable software.
-        </p>
-      </div>
-
-      {/* Grid of Glassmorphic Stack Containers */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        
-        {/* 1. Programming Languages */}
-        <div className="p-6 rounded-2xl bg-card/80 border border-border/80 shadow-md flex flex-col gap-4 group hover:border-emerald-500/40 hover:shadow-xl transition-all">
-          <div className="flex items-center justify-between border-b border-border/40 pb-3">
-            <span className="text-sm text-foreground font-bold flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-emerald-400" />
-              Programming Languages
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
-              {groups.languages.length.toString().padStart(2, "0")} Tools
+    <section className="py-24 bg-slate-50/90 dark:bg-slate-950/50 border-b border-slate-200/80 dark:border-slate-800 relative" id="skills">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/30 mb-3">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+            <span className="font-mono text-xs text-emerald-800 dark:text-emerald-400 uppercase tracking-wider font-semibold">
+              Technical Arsenal
             </span>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
-            {groups.languages.map((item) => renderSkillPill(item))}
-          </div>
+          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
+            My Skills &amp; Stack
+          </h2>
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
+            A curated ecosystem of modern web technologies, programming languages, and cloud tools I leverage to build scalable, reliable software.
+          </p>
         </div>
 
-        {/* 2. Frameworks & UI */}
-        <div className="p-6 rounded-2xl bg-card/80 border border-border/80 shadow-md flex flex-col gap-4 group hover:border-cyan-500/40 hover:shadow-xl transition-all">
-          <div className="flex items-center justify-between border-b border-border/40 pb-3">
-            <span className="text-sm text-foreground font-bold flex items-center gap-2">
-              <Layers className="h-4 w-4 text-cyan-400" />
-              Frontend &amp; Frameworks
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
-              {groups.frontend.length.toString().padStart(2, "0")} Tools
-            </span>
+        {/* Grid of Stack Containers */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          {/* 1. Programming Languages */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-emerald-500/50 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                <span className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20">
+                  <Terminal className="h-4 w-4" />
+                </span>
+                Programming Languages
+              </span>
+              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                {groups.languages.length.toString().padStart(2, "0")} Tools
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {groups.languages.map((item) => renderSkillPill(item))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
-            {groups.frontend.map((item) => renderSkillPill(item))}
-          </div>
-        </div>
 
-        {/* 3. Backend & APIs */}
-        <div className="p-6 rounded-2xl bg-card/80 border border-border/80 shadow-md flex flex-col gap-4 group hover:border-indigo-500/40 hover:shadow-xl transition-all">
-          <div className="flex items-center justify-between border-b border-border/40 pb-3">
-            <span className="text-sm text-foreground font-bold flex items-center gap-2">
-              <Cpu className="h-4 w-4 text-indigo-400" />
-              Backend Architecture
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
-              {groups.backend.length.toString().padStart(2, "0")} Tools
-            </span>
+          {/* 2. Frameworks & UI */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-teal-500/50 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                <span className="p-2 rounded-lg bg-teal-50 dark:bg-cyan-500/10 text-teal-600 dark:text-cyan-400 border border-teal-200/60 dark:border-cyan-500/20">
+                  <Layers className="h-4 w-4" />
+                </span>
+                Frontend &amp; Frameworks
+              </span>
+              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                {groups.frontend.length.toString().padStart(2, "0")} Tools
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {groups.frontend.map((item) => renderSkillPill(item))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
-            {groups.backend.map((item) => renderSkillPill(item))}
-          </div>
-        </div>
 
-        {/* 4. Databases */}
-        <div className="p-6 rounded-2xl bg-card/80 border border-border/80 shadow-md flex flex-col gap-4 group hover:border-amber-500/40 hover:shadow-xl transition-all">
-          <div className="flex items-center justify-between border-b border-border/40 pb-3">
-            <span className="text-sm text-foreground font-bold flex items-center gap-2">
-              <Database className="h-4 w-4 text-amber-400" />
-              Databases &amp; Modeling
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
-              {groups.database.length.toString().padStart(2, "0")} Tools
-            </span>
+          {/* 3. Backend & APIs */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-indigo-500/50 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                <span className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20">
+                  <Cpu className="h-4 w-4" />
+                </span>
+                Backend Architecture
+              </span>
+              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                {groups.backend.length.toString().padStart(2, "0")} Tools
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {groups.backend.map((item) => renderSkillPill(item))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
-            {groups.database.map((item) => renderSkillPill(item))}
-          </div>
-        </div>
 
-        {/* 5. Platforms & Tooling (Spans 2 columns on tablet & desktop) */}
-        <div className="p-6 rounded-2xl bg-card/80 border border-border/80 shadow-md flex flex-col gap-4 group hover:border-sky-500/40 hover:shadow-xl transition-all md:col-span-2 lg:col-span-2">
-          <div className="flex items-center justify-between border-b border-border/40 pb-3">
-            <span className="text-sm text-foreground font-bold flex items-center gap-2">
-              <Wrench className="h-4 w-4 text-sky-400" />
-              Tools, Cloud &amp; Platforms
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
-              {groups.tools.length.toString().padStart(2, "0")} Tools
-            </span>
+          {/* 4. Databases */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-amber-500/50 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                <span className="p-2 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-500/20">
+                  <Database className="h-4 w-4" />
+                </span>
+                Databases &amp; Modeling
+              </span>
+              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                {groups.database.length.toString().padStart(2, "0")} Tools
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {groups.database.map((item) => renderSkillPill(item))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
-            {groups.tools.map((item) => renderSkillPill(item))}
-          </div>
-        </div>
 
+          {/* 5. Platforms & Tooling (Spans 2 columns on tablet & desktop) */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-sky-500/50 hover:shadow-xl transition-all duration-300 md:col-span-2 lg:col-span-2">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                <span className="p-2 rounded-lg bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-200/60 dark:border-sky-500/20">
+                  <Wrench className="h-4 w-4" />
+                </span>
+                Tools, Cloud &amp; Platforms
+              </span>
+              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                {groups.tools.length.toString().padStart(2, "0")} Tools
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {groups.tools.map((item) => renderSkillPill(item))}
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );

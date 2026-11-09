@@ -38,20 +38,20 @@ export function Logo({ className = "", size = "md", showText = true }: LogoProps
     >
       {/* Monogram Badge */}
       <div
-        className={`${sizeConfig.badge} relative flex items-center justify-center font-mono font-black shadow-xs border border-sky-500/40 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white overflow-hidden`}
+        className={`${sizeConfig.badge} relative flex items-center justify-center font-mono font-black shadow-sm border border-emerald-500/30 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 text-white overflow-hidden`}
       >
         {/* Subtle grid pattern background */}
-        <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:6px_6px] opacity-15" />
+        <div className="absolute inset-0 bg-[radial-gradient(#34d399_1px,transparent_1px)] [background-size:6px_6px] opacity-20" />
 
         {/* Monogram letters */}
         <span className="relative z-10 flex items-center">
-          <span className="text-sky-400 group-hover:text-sky-300 transition-colors">T</span>
-          <span className="text-rose-500 group-hover:text-rose-400 transition-colors">A</span>
+          <span className="text-emerald-400 group-hover:text-emerald-300 transition-colors">T</span>
+          <span className="text-cyan-400 group-hover:text-cyan-300 transition-colors">A</span>
         </span>
 
         {/* Live status dot */}
         <span
-          className={`absolute top-1 right-1 ${sizeConfig.dot} rounded-full bg-emerald-500 ring-2 ring-slate-950 shadow-xs`}
+          className={`absolute top-1 right-1 ${sizeConfig.dot} rounded-full bg-emerald-400 ring-2 ring-slate-900 shadow-xs`}
         />
       </div>
 
@@ -59,12 +59,15 @@ export function Logo({ className = "", size = "md", showText = true }: LogoProps
       {showText && (
         <div className="flex flex-col text-left">
           <span
-            className={`${sizeConfig.text} font-extrabold tracking-tight text-foreground group-hover:text-primary transition-colors leading-none`}
+            className={`${sizeConfig.text} font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-none`}
           >
-            Tanvir <span className="bg-gradient-to-r from-sky-400 to-rose-500 bg-clip-text text-transparent">Ahmed</span>
+            Tanvir{" "}
+            <span className="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              Ahmed
+            </span>
           </span>
           <span
-            className={`${sizeConfig.subtext} text-muted-foreground font-mono font-medium tracking-wider uppercase mt-1`}
+            className={`${sizeConfig.subtext} text-slate-500 dark:text-slate-400 font-mono font-semibold tracking-wider uppercase mt-1`}
           >
             Full-Stack Engineer
           </span>

@@ -50,6 +50,7 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
     { name: "Skills", href: "/#skills" },
     { name: "Projects", href: "/#projects" },
     { name: "Experience", href: "/#experience" },
+    { name: "Education", href: "/#education" },
     { name: "Blog", href: "/blog" },
     { name: "Resume", href: "/resume" },
     { name: "Contact", href: "/#contact" },
@@ -59,8 +60,8 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border/40 shadow-sm py-3"
-          : "bg-transparent py-5"
+          ? "bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm py-3"
+          : "bg-white/60 dark:bg-transparent backdrop-blur-md border-b border-slate-200/50 dark:border-transparent py-4"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -69,27 +70,27 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
           <Logo size="md" />
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2 bg-slate-100/80 dark:bg-slate-900/70 px-3 py-1.5 rounded-full border border-slate-200/80 dark:border-slate-800">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:underline underline-offset-8"
+                className="px-3 py-1.5 rounded-full text-xs lg:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all"
               >
                 {link.name}
               </a>
             ))}
           </nav>
 
-          {/* Action CTAs & Admin Shortcut */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Action CTAs */}
+          <div className="hidden md:flex items-center gap-2.5">
             {/* Theme Bright/Dark Mode Toggle */}
             <Button
               variant="outline"
               size="sm"
               onClick={toggleTheme}
               title={isDark ? "Switch to Bright Mode" : "Switch to Dark Mode"}
-              className="h-8 px-2.5 gap-1.5 text-xs font-mono border-border bg-card hover:bg-muted"
+              className="h-9 px-3 gap-1.5 text-xs font-mono border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-xs"
             >
               {isDark ? (
                 <>
@@ -109,32 +110,34 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
-              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
-              <FaGithub className="h-5 w-5" />
+              <FaGithub className="h-4 w-4" />
             </Link>
             <Link
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
-              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-[#0077b5] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
-              <FaLinkedin className="h-5 w-5" />
+              <FaLinkedin className="h-4 w-4" />
             </Link>
 
-            <a href="#contact">
-              <Button size="sm">Get In Touch</Button>
+            <a href="/#contact">
+              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-sm shadow-emerald-600/20 px-4">
+                Hire Me
+              </Button>
             </a>
           </div>
 
           {/* Mobile menu button */}
           <div className="flex items-center gap-2 md:hidden">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={toggleTheme}
-              className="h-8 w-8 p-0"
+              className="h-8 w-8 p-0 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
               title="Toggle Theme"
             >
               {isDark ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700" />}
@@ -152,26 +155,22 @@ export function Navbar({ onOpenAdmin }: NavbarProps) {
 
         {/* Mobile menu panel */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-3 pt-3 pb-4 border-t border-border/40 bg-background/95 backdrop-blur-md rounded-b-xl flex flex-col gap-3 px-2">
+          <div className="md:hidden mt-3 pt-3 pb-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl shadow-xl flex flex-col gap-1.5 px-3">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-base font-medium text-foreground hover:bg-muted rounded-md transition-colors"
+                className="px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-slate-800 rounded-lg transition-colors"
               >
                 {link.name}
               </a>
             ))}
-            <div className="pt-2 border-t border-border/30 flex flex-col gap-2">
-              <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="outline" className="w-full justify-start gap-2">
-                  <ShieldAlert className="h-4 w-4 text-amber-500" />
-                  Admin CMS (CRUD Projects & Skills)
+            <div className="pt-2 mt-1 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
+              <a href="/#contact" onClick={() => setMobileMenuOpen(false)}>
+                <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold">
+                  Get In Touch
                 </Button>
-              </Link>
-              <a href="#contact" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full">Get In Touch</Button>
               </a>
             </div>
           </div>

@@ -131,3 +131,43 @@ model ContactMessage {
   @@map("contact_messages")
 }
 
+model Service {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String
+  features     String[] // Key deliverables / features
+  icon         String?  @default("Code2")
+  iconImage    String?  // Custom Cloudinary icon/image URL
+  pricing      String?  @default("Custom Quote")
+  deliveryTime String?  @default("1-2 Weeks")
+  status       String   @default("ACTIVE") // "ACTIVE" | "INACTIVE"
+  showOnHome   Boolean  @default(true) // Controls whether service appears on homepage
+  featured     Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Education {
+  id          String   @id @default(uuid())
+  degree      String
+  field       String
+  institution String
+  location    String
+  period      String
+  grade       String
+  status      String?  @default("Completed")
+  description String
+  highlights  String[]
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("educations")
+}
+
+
+
