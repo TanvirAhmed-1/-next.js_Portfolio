@@ -322,9 +322,9 @@ export const educations: Education[] = [
     field: "BSc in Computer Science and Engineering.",
     institution: "Northern University Bangladesh",
     location: "Dhaka, Bangladesh",
-    period: "02/01/2024 – Present",
-    grade: "Running (B.Sc in CSE)",
-    status: "Ongoing",
+    period: "02/01/2024 – 2026",
+    grade: "CGPA: 3.64",
+    status: "Completed",
     description:
       "Pursuing Bachelor of Science in Computer Science and Engineering at Northern University Bangladesh, focusing on software engineering, distributed systems, algorithms, and database architecture.",
     highlights: [

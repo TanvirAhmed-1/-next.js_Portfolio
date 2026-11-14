@@ -136,7 +136,7 @@ export function EducationFormDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl no-scrollbar">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {educationToEdit ? (
@@ -162,8 +162,8 @@ export function EducationFormDialog({
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             <RHFInput
               name="degree"
               label="Degree / Qualification Title"
@@ -175,13 +175,13 @@ export function EducationFormDialog({
             <RHFInput
               name="field"
               label="Major / Department / Group"
-              placeholder="e.g. BSc in Computer Science and Engineering."
+              placeholder="e.g. BSc in Computer Science and Engineering"
               required
               control={control}
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             <RHFInput
               name="institution"
               label="Institution / University / School"
@@ -199,11 +199,11 @@ export function EducationFormDialog({
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-start">
             <RHFInput
               name="period"
               label="Duration / Session"
-              placeholder="e.g. 02/01/2024 – Present"
+              placeholder="e.g. 2024 – Present"
               required
               control={control}
             />
@@ -225,48 +225,50 @@ export function EducationFormDialog({
               ]}
               control={control}
             />
+
+            <RHFInput
+              name="order"
+              label="Display Order"
+              type="number"
+              min={0}
+              max={50}
+              control={control}
+            />
           </div>
 
-          <RHFTextArea
-            name="description"
-            label="Summary / Details"
-            rows={2}
-            placeholder="Brief description of your academic focus or achievements..."
-            required
-            control={control}
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+            <RHFTextArea
+              name="description"
+              label="Summary / Details"
+              rows={3}
+              placeholder="Brief description of your academic focus or achievements..."
+              required
+              control={control}
+            />
 
-          <RHFTextArea
-            name="highlights"
-            label="Key Coursework / Highlights (One per line)"
-            rows={3}
-            placeholder="BSc in Computer Science and Engineering&#10;Data Structures & Algorithms&#10;Database Management Systems"
-            control={control}
-            helperText="Write each highlight or key subject on a new line."
-          />
+            <RHFTextArea
+              name="highlights"
+              label="Key Coursework / Highlights (One per line)"
+              rows={3}
+              placeholder="BSc in Computer Science and Engineering&#10;Data Structures & Algorithms&#10;Database Management Systems"
+              control={control}
+            />
+          </div>
 
-          <RHFInput
-            name="order"
-            label="Display Order (1 = First)"
-            type="number"
-            min={0}
-            max={50}
-            control={control}
-          />
-
-          <DialogFooter className="mt-6 pt-4 border-t border-border/40">
+          <DialogFooter className="mt-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
               disabled={submitting}
+              className="h-9 px-4 rounded-lg"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={submitting}
-              className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+              className="h-9 px-5 rounded-lg gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
             >
               {submitting && <Loader2 className="h-4 w-4 animate-spin mr-1" />}
               {educationToEdit ? "Save Changes" : "Add Education"}

@@ -4,8 +4,6 @@ import React from "react";
 import {
   useFormContext,
   Controller,
-  Control,
-  UseFormRegister,
   FieldError,
 } from "react-hook-form";
 import { Label } from "@/components/ui/label";
@@ -20,6 +18,7 @@ export interface RHFSelectorProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "name"> {
   name: string;
   label?: string;
+  labelRight?: React.ReactNode;
   helperText?: string;
   required?: boolean;
   options: (SelectorOption | string)[];
@@ -34,6 +33,7 @@ export interface RHFSelectorProps
 export function RHFSelector({
   name,
   label,
+  labelRight,
   helperText,
   required = false,
   options,
@@ -60,21 +60,26 @@ export function RHFSelector({
   ) => {
     return (
       <div className={`space-y-1.5 w-full ${containerClassName}`}>
-        {label && (
-          <Label
-            htmlFor={name}
-            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center justify-between"
-          >
-            <span>
-              {label}
-              {required && <span className="text-destructive ml-1">*</span>}
-            </span>
-          </Label>
+        {(label || labelRight) && (
+          <div className="flex items-center justify-between h-5">
+            {label ? (
+              <Label
+                htmlFor={name}
+                className="font-sans text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1 leading-none"
+              >
+                <span>{label}</span>
+                {required && <span className="text-rose-500">*</span>}
+              </Label>
+            ) : (
+              <span />
+            )}
+            {labelRight && <div className="flex items-center">{labelRight}</div>}
+          </div>
         )}
 
         <div className="relative flex items-center">
           {icon && (
-            <div className="absolute left-3 text-muted-foreground pointer-events-none flex items-center justify-center">
+            <div className="absolute left-3.5 text-slate-400 dark:text-slate-500 pointer-events-none flex items-center justify-center">
               {icon}
             </div>
           )}
@@ -82,12 +87,12 @@ export function RHFSelector({
           <select
             id={name}
             disabled={disabled}
-            className={`w-full appearance-none rounded-lg border bg-background px-3 py-2 text-sm text-foreground shadow-xs transition-all duration-200 focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50 pr-9 ${
-              icon ? "pl-9" : ""
+            className={`h-10 w-full appearance-none rounded-lg border bg-white dark:bg-slate-900/90 px-3.5 text-sm font-sans text-slate-900 dark:text-slate-100 shadow-2xs transition-all duration-200 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 pr-9 ${
+              icon ? "pl-10" : ""
             } ${
               errorMessage
-                ? "border-destructive focus:ring-destructive/30"
-                : "border-input focus:ring-primary/40 focus:border-primary"
+                ? "border-rose-500 focus-visible:border-rose-500 focus-visible:ring-rose-500/20"
+                : "border-slate-200 dark:border-slate-800 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/20"
             } ${className}`}
             {...fieldProps}
             {...rest}
@@ -98,23 +103,27 @@ export function RHFSelector({
               </option>
             )}
             {normalizedOptions.map((opt) => (
-              <option key={opt.value} value={opt.value} className="bg-popover text-popover-foreground">
+              <option
+                key={opt.value}
+                value={opt.value}
+                className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+              >
                 {opt.label}
               </option>
             ))}
           </select>
 
-          <ChevronDown className="absolute right-3 h-4 w-4 text-muted-foreground pointer-events-none" />
+          <ChevronDown className="absolute right-3 h-4 w-4 text-slate-400 pointer-events-none" />
         </div>
 
         {errorMessage && (
-          <p className="text-xs text-destructive font-medium flex items-center gap-1">
+          <p className="text-xs text-rose-500 font-medium flex items-center gap-1">
             {errorMessage}
           </p>
         )}
 
         {!errorMessage && helperText && (
-          <p className="text-xs text-muted-foreground">{helperText}</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400">{helperText}</p>
         )}
       </div>
     );

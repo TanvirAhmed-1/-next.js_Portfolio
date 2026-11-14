@@ -1,14 +1,14 @@
-export { RHFInput } from "./RHFInput";
-export type { RHFInputProps } from "./RHFInput";
+export { RHFInput } from "@/components/shared/forms/RHFInput";
+export type { RHFInputProps } from "@/components/shared/forms/RHFInput";
 
-export { RHFSelector } from "./RHFSelector";
-export type { RHFSelectorProps, SelectorOption } from "./RHFSelector";
+export { RHFSelector } from "@/components/shared/forms/RHFSelector";
+export type { RHFSelectorProps, SelectorOption } from "@/components/shared/forms/RHFSelector";
 
-export { RHFTextArea } from "./RHFTextArea";
-export type { RHFTextAreaProps } from "./RHFTextArea";
+export { RHFTextArea } from "@/components/shared/forms/RHFTextArea";
+export type { RHFTextAreaProps } from "@/components/shared/forms/RHFTextArea";
 
-export { RHFImageUpload } from "./RHFImageUpload";
-export type { RHFImageUploadProps } from "./RHFImageUpload";
+export { RHFImageUpload } from "@/components/shared/forms/RHFImageUpload";
+export type { RHFImageUploadProps } from "@/components/shared/forms/RHFImageUpload";
 
-export { RHFFileUpload } from "./RHFFileUpload";
-export type { RHFFileUploadProps } from "./RHFFileUpload";
+export { RHFFileUpload } from "@/components/shared/forms/RHFFileUpload";
+export type { RHFFileUploadProps } from "@/components/shared/forms/RHFFileUpload";

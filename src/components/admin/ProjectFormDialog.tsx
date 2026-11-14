@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { RHFInput, RHFSelector, RHFTextArea, RHFImageUpload } from "@/components/shared/forms";
 import { projectSchema, ProjectFormData } from "@/lib/validations";
 import { Project, ProjectCategory } from "@/types";
-import { Loader2, Plus, Edit, FolderPlus, Check } from "lucide-react";
+import { Loader2, Plus, Edit, FolderPlus, Check, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface ProjectFormDialogProps {
@@ -27,6 +27,7 @@ interface ProjectFormDialogProps {
 }
 
 const DEFAULT_CATEGORIES: string[] = [
+  "Best Product",
   "Full Stack",
   "Backend",
   "Frontend",
@@ -198,17 +199,17 @@ export function ProjectFormDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[620px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl no-scrollbar">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {projectToEdit ? (
               <>
-                <Edit className="h-5 w-5 text-primary" />
+                <Edit className="h-5 w-5 text-emerald-500" />
                 Edit Project
               </>
             ) : (
               <>
-                <Plus className="h-5 w-5 text-primary" />
+                <Plus className="h-5 w-5 text-emerald-500" />
                 Add New Project
               </>
             )}
@@ -226,69 +227,17 @@ export function ProjectFormDialog({
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
-          {/* Project Title */}
-          <RHFInput
-            name="title"
-            label="Project Title"
-            placeholder="e.g. Distributed NestJS Microservices"
-            required
-            control={control}
-          />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-1">
+          {/* Row 1: Project Title + URL Slug */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+            <RHFInput
+              name="title"
+              label="Project Title"
+              placeholder="e.g. Distributed NestJS Microservices"
+              required
+              control={control}
+            />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-start">
-            {/* Dynamic Category Selector & Quick Add */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Category <span className="text-destructive">*</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setIsAddingCat(!isAddingCat)}
-                  className="text-[11px] font-mono text-primary hover:underline flex items-center gap-1"
-                >
-                  <FolderPlus className="h-3 w-3" />
-                  {isAddingCat ? "Cancel" : "+ New"}
-                </button>
-              </div>
-
-              {isAddingCat ? (
-                <div className="flex items-center gap-1.5 pt-0.5">
-                  <input
-                    type="text"
-                    value={newCatName}
-                    onChange={(e) => setNewCatName(e.target.value)}
-                    placeholder="Enter category name..."
-                    className="h-8 flex-1 rounded-lg border border-input bg-background px-2.5 text-xs outline-none focus:border-primary"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        handleCreateNewCategory();
-                      }
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    size="xs"
-                    onClick={handleCreateNewCategory}
-                    className="h-8 px-2.5 text-xs gap-1"
-                  >
-                    <Check className="h-3.5 w-3.5" />
-                    Add
-                  </Button>
-                </div>
-              ) : (
-                <RHFSelector
-                  name="category"
-                  options={dynamicCategories}
-                  control={control}
-                  required
-                />
-              )}
-            </div>
-
-            {/* Slug */}
             <RHFInput
               name="slug"
               label="URL Slug (Auto Generated)"
@@ -298,45 +247,99 @@ export function ProjectFormDialog({
             />
           </div>
 
-          {/* Short Description */}
-          <RHFTextArea
-            name="description"
-            label="Short Description"
-            rows={2}
-            placeholder="Brief summary of the architecture and business outcome..."
-            required
-            control={control}
-          />
+          {/* Row 2: Category + Tech Stack Tags */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+            {isAddingCat ? (
+              <div className="space-y-1.5 w-full">
+                <div className="flex items-center justify-between h-5">
+                  <span className="font-sans text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1 leading-none">
+                    <span>Category</span>
+                    <span className="text-rose-500">*</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingCat(false)}
+                    className="text-[11px] font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                  >
+                    <FolderPlus className="h-3 w-3" />
+                    Cancel
+                  </button>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <input
+                    type="text"
+                    value={newCatName}
+                    onChange={(e) => setNewCatName(e.target.value)}
+                    placeholder="Enter category name..."
+                    className="h-10 flex-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 px-3.5 text-sm font-sans text-slate-900 dark:text-slate-100 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleCreateNewCategory();
+                      }
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleCreateNewCategory}
+                    className="h-10 px-3 rounded-lg text-xs font-semibold gap-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                  >
+                    <Check className="h-3.5 w-3.5" />
+                    Add
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <RHFSelector
+                name="category"
+                label="Category"
+                required
+                options={dynamicCategories}
+                control={control}
+                labelRight={
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingCat(true)}
+                    className="text-[11px] font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                  >
+                    <FolderPlus className="h-3 w-3" />
+                    + New
+                  </button>
+                }
+              />
+            )}
 
-          {/* Long / Architecture Details */}
-          <RHFTextArea
-            name="longDescription"
-            label="Extended Architectural Details"
-            rows={3}
-            placeholder="Detailed explanation of design patterns, database choices, queues, etc."
-            control={control}
-          />
+            <RHFInput
+              name="tags"
+              label="Tech Stack Tags (comma-separated)"
+              placeholder="NestJS, Next.js, Redis, RabbitMQ, Docker"
+              required
+              control={control}
+            />
+          </div>
 
-          {/* Tech Stack Tags */}
-          <RHFInput
-            name="tags"
-            label="Tech Stack Tags (comma-separated)"
-            placeholder="NestJS, Next.js, Redis, RabbitMQ, Docker"
-            required
-            control={control}
-          />
+          {/* Row 3: Short Description + Extended Architectural Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+            <RHFTextArea
+              name="description"
+              label="Short Description"
+              rows={2}
+              placeholder="Brief summary of the architecture and business outcome..."
+              required
+              control={control}
+            />
 
-          {/* Cloudinary Image Upload */}
-          <RHFImageUpload
-            name="imageUrl"
-            label="Cover Image (Cloudinary CDN)"
-            folder="portfolio/projects"
-            required
-            control={control}
-          />
+            <RHFTextArea
+              name="longDescription"
+              label="Extended Architectural Details"
+              rows={2}
+              placeholder="Detailed explanation of design patterns, database choices, queues..."
+              control={control}
+            />
+          </div>
 
-          {/* Links Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Row 4: Live Demo URL + GitHub Repository URL */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             <RHFInput
               name="liveUrl"
               label="Live Demo URL"
@@ -352,29 +355,52 @@ export function ProjectFormDialog({
             />
           </div>
 
-          {/* Featured checkbox */}
-          <div className="flex items-center gap-2 pt-2">
+          {/* Row 5: Cloudinary Image Upload */}
+          <RHFImageUpload
+            name="imageUrl"
+            label="Cover Image (Cloudinary CDN)"
+            folder="portfolio/projects"
+            required
+            control={control}
+          />
+
+          {/* Best Product / Featured Toggle */}
+          <label
+            htmlFor="project-featured"
+            className="flex items-start gap-3 p-3.5 rounded-xl border border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 transition-colors cursor-pointer"
+          >
             <input
               type="checkbox"
               id="project-featured"
-              className="h-4 w-4 rounded border-input text-primary focus:ring-primary cursor-pointer"
+              className="mt-0.5 h-4 w-4 rounded border-amber-500/50 text-amber-600 focus:ring-amber-500 cursor-pointer"
               {...register("featured")}
             />
-            <Label htmlFor="project-featured" className="cursor-pointer text-sm font-normal">
-              Feature on home page hero / spotlight
-            </Label>
-          </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-white">
+                <Sparkles className="h-4 w-4 text-amber-500" />
+                Tag as &ldquo;Best Product&rdquo;
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Any project with this tag will appear in the &ldquo;Best Product&rdquo; filter tab and display a Best Product badge on its card.
+              </p>
+            </div>
+          </label>
 
-          <DialogFooter className="mt-6 pt-4 border-t border-border/40">
+          <DialogFooter className="mt-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
               disabled={submitting}
+              className="h-9 px-4 rounded-lg"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={submitting}>
+            <Button
+              type="submit"
+              disabled={submitting}
+              className="h-9 px-5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
+            >
               {submitting && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
               {projectToEdit ? "Update Project" : "Create Project"}
             </Button>

@@ -34,7 +34,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
           {/* Left Column: Headline, Bio & CTAs */}
           <div className="lg:col-span-7 space-y-5 text-center lg:text-left md:py-10">
             {/* Availability Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-200 bg-emerald-50/90 text-xs font-mono font-semibold text-emerald-800 shadow-xs dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-400">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-200 bg-emerald-50/90 text-xs font-mono font-semibold text-emerald-800 shadow-xs dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-400 motion-preset-fade motion-duration-700">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400"></span>
@@ -43,7 +43,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.12] motion-preset-slide-up motion-duration-700 motion-delay-100">
               Architecting Resilient{" "}
               <span className="bg-gradient-to-r from-rose-600 to-orange-600 dark:from-rose-400 dark:to-orange-400 bg-clip-text text-transparent font-extrabold">
                 NestJS
@@ -56,12 +56,12 @@ export function HeroSection({ profile }: HeroSectionProps) {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 motion-preset-slide-up motion-duration-700 motion-delay-200">
               Hi, I&apos;m <strong className="text-slate-900 dark:text-white font-bold">{profile?.name || "Tanvir Ahmed"}</strong>. A Senior Full-Stack Engineer specializing in high-concurrency event-driven microservices, clean hexagonal architectures, PostgreSQL query tuning, and responsive Next.js web applications.
             </p>
 
             {/* Quick Contact Chips */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 pt-1 text-xs font-mono">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 pt-1 text-xs font-mono motion-preset-slide-up motion-duration-700 motion-delay-300">
               <a
                 href="https://wa.me/8801786924911"
                 target="_blank"
@@ -94,7 +94,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2 motion-preset-slide-up motion-duration-700 motion-delay-500">
               <a href="#projects">
                 <Button size="lg" className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg shadow-emerald-600/20 px-6">
                   Explore Projects
@@ -118,7 +118,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
           </div>
 
           {/* Right Column: Hero Portrait Showcase (No bg/border, only shadow) */}
-          <div className="lg:col-span-5 flex items-end justify-center self-end">
+          <div className="lg:col-span-5 flex items-end justify-center self-end motion-preset-focus motion-duration-1000 motion-delay-200">
             <div className="relative w-full max-w-[460px] lg:max-w-[500px] mx-auto flex items-end justify-center group -mt-6 md:-mt-10">
               <Image
                 src="/images/tanvir.png"

@@ -143,7 +143,7 @@ export function SkillFormDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[480px]">
+      <DialogContent className="max-w-xl no-scrollbar">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {skillToEdit ? (
@@ -171,26 +171,28 @@ export function SkillFormDialog({
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
-          {/* Skill Name */}
-          <RHFInput
-            name="name"
-            label="Skill Name"
-            placeholder="e.g. NestJS, Docker, React, PostgreSQL"
-            required
-            control={control}
-          />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+            {/* Skill Name */}
+            <RHFInput
+              name="name"
+              label="Skill Name"
+              placeholder="e.g. NestJS, Docker, React"
+              required
+              control={control}
+            />
 
-          {/* Category */}
-          <RHFSelector
-            name="category"
-            label="Category"
-            required
-            options={CATEGORIES}
-            control={control}
-          />
+            {/* Category */}
+            <RHFSelector
+              name="category"
+              label="Category"
+              required
+              options={CATEGORIES}
+              control={control}
+            />
+          </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             {/* Level */}
             <RHFSelector
               name="level"
@@ -230,16 +232,21 @@ export function SkillFormDialog({
             control={control}
           />
 
-          <DialogFooter className="mt-6 pt-4 border-t border-border/40">
+          <DialogFooter className="mt-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
               disabled={submitting}
+              className="h-9 px-4 rounded-lg"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={submitting}>
+            <Button
+              type="submit"
+              disabled={submitting}
+              className="h-9 px-5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
+            >
               {submitting && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
               {skillToEdit ? "Update Skill" : "Create Skill"}
             </Button>

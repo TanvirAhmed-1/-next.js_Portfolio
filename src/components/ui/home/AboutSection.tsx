@@ -4,6 +4,7 @@ import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Layers, Server, ShieldCheck, Zap, Code2, Cpu, CheckCircle2, GitBranch } from "lucide-react";
 import { IProfile } from "@/server/modules/profile/profile.interface";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 interface AboutSectionProps {
   profile?: IProfile | null;
@@ -48,9 +49,9 @@ export function AboutSection({ profile }: AboutSectionProps) {
   ];
 
   return (
-    <section id="about" className="py-24 bg-white dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800 relative">
+    <section id="about" className="py-14 sm:py-16 bg-white dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center text-center mb-16">
+        <ScrollReveal direction="up" className="flex flex-col items-center text-center mb-10 sm:mb-12">
           <Badge variant="outline" className="mb-3 font-mono text-xs border-emerald-200 text-emerald-800 bg-emerald-50 dark:border-emerald-500/30 dark:text-emerald-400 dark:bg-emerald-500/5 px-3 py-1">
             Engineering Identity
           </Badge>
@@ -60,13 +61,13 @@ export function AboutSection({ profile }: AboutSectionProps) {
           <p className="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl text-base sm:text-lg">
             A relentless focus on clean code, automated testing, maintainable architectures, and resilient developer tooling.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Bio + Highlights Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Left Column: Bio Narrative */}
-          <div className="lg:col-span-5 flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-slate-50/80 dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+          <ScrollReveal direction="right" delay={0.1} className="lg:col-span-5 flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-slate-50/80 dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
             <div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2.5">
                 <span className="p-2 rounded-lg bg-emerald-100/80 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
@@ -109,15 +110,17 @@ export function AboutSection({ profile }: AboutSectionProps) {
                 </div>
               ))}
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Right Column: 4 Core Pillars */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {highlights.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div
+                <ScrollReveal
                   key={idx}
+                  direction="up"
+                  delay={0.15 + idx * 0.1}
                   className="p-6 rounded-2xl bg-slate-50/60 dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800/80 hover:border-emerald-500/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div>
@@ -134,7 +137,7 @@ export function AboutSection({ profile }: AboutSectionProps) {
                   <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center gap-1.5 text-[11px] font-mono text-slate-500 dark:text-slate-400 font-medium">
                     <GitBranch className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> Production Tested
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>

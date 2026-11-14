@@ -1,38 +1,184 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Outer Armor Bevel Gradients -->
+    <linearGradient id="armorRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ee7b7" />
+      <stop offset="35%" stop-color="#10b981" />
+      <stop offset="70%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+
+    <linearGradient id="armorDark" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="50%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+
+    <!-- 3D Isometric Cube Face Gradients -->
+    <linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+
+    <linearGradient id="cubeLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
       <stop offset="100%" stop-color="#020617" />
     </linearGradient>
-    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0284c7" />
+
+    <linearGradient id="cubeRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#042f2e" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f43f5e" />
-      <stop offset="100%" stop-color="#e11d48" />
+
+    <!-- Reactor Core Radial Glow -->
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.45" />
+      <stop offset="55%" stop-color="#06b6d4" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 3D 'T' Blade Gradient -->
+    <linearGradient id="tBlade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ecfdf5" />
+      <stop offset="25%" stop-color="#6ee7b7" />
+      <stop offset="65%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+
+    <!-- 3D 'A' Blade Gradient -->
+    <linearGradient id="aBlade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cffafe" />
+      <stop offset="30%" stop-color="#2dd4bf" />
+      <stop offset="70%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0e7490" />
+    </linearGradient>
+
+    <!-- Specular Edge Gradient -->
+    <linearGradient id="specular" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#34d399" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Drop Shadow for 3D Monogram -->
+    <filter id="cyberShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.75" />
+      <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#10b981" flood-opacity="0.45" />
     </filter>
   </defs>
 
-  <!-- Background container with rounded corners and border -->
-  <rect width="64" height="64" rx="16" fill="url(#bgGrad)" />
-  <rect width="60" height="60" x="2" y="2" rx="14" fill="none" stroke="url(#primaryGrad)" stroke-width="1.5" stroke-opacity="0.4" />
+  <!-- 1. Outer 3D Hexagonal Metallic Shield Frame -->
+  <polygon
+    points="60,3 110,31.5 110,88.5 60,117 10,88.5 10,31.5"
+    fill="url(#armorRim)"
+  />
 
-  <!-- Code bracket accent < / > -->
-  <path d="M12 28 L7 32 L12 36" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
-  <path d="M52 28 L57 32 L52 36" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- 2. Inner Armor Cutout -->
+  <polygon
+    points="60,7.5 106,33.8 106,86.2 60,112.5 14,86.2 14,33.8"
+    fill="url(#armorDark)"
+  />
 
-  <!-- TA Monogram -->
-  <text x="21" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="900" fill="url(#primaryGrad)" filter="url(#glow)">T</text>
-  <text x="35" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="900" fill="url(#accentGrad)" filter="url(#glow)">A</text>
+  <!-- 3. 3D Isometric Cube Faces inside the Hexagon -->
+  <!-- Top Isometric Face -->
+  <polygon
+    points="60,11 103,35.5 60,60 17,35.5"
+    fill="url(#cubeTop)"
+  />
+  <!-- Left Isometric Face -->
+  <polygon
+    points="17,35.5 60,60 60,109 17,84.5"
+    fill="url(#cubeLeft)"
+  />
+  <!-- Right Isometric Face -->
+  <polygon
+    points="60,60 103,35.5 103,84.5 60,109"
+    fill="url(#cubeRight)"
+  />
 
-  <!-- Status dot -->
-  <circle cx="50" cy="14" r="3" fill="#10b981" />
-  <circle cx="50" cy="14" r="4.5" fill="none" stroke="#10b981" stroke-width="1" opacity="0.5" />
+  <!-- 4. Isometric Depth Seam Lines -->
+  <path
+    d="M60 11 V60 M17 35.5 L60 60 L103 35.5 M60 60 V109"
+    stroke="#34d399"
+    stroke-width="1"
+    stroke-opacity="0.22"
+  />
+
+  <!-- 5. Ambient Reactor Core Glow -->
+  <circle cx="60" cy="60" r="46" fill="url(#coreGlow)" />
+
+  <!-- 6. Inner Cybernetic Hex-Ring & Circuit Traces -->
+  <polygon
+    points="60,19 95.5,39.5 95.5,80.5 60,101 24.5,80.5 24.5,39.5"
+    fill="none"
+    stroke="#2dd4bf"
+    stroke-width="1.2"
+    stroke-opacity="0.35"
+    stroke-dasharray="8 4"
+  />
+
+  <!-- Glowing Vertex Nodes -->
+  <circle cx="60" cy="12" r="2.2" fill="#6ee7b7" />
+  <circle cx="102" cy="36" r="2.2" fill="#2dd4bf" />
+  <circle cx="102" cy="84" r="2.2" fill="#06b6d4" />
+  <circle cx="60" cy="108" r="2.2" fill="#10b981" />
+  <circle cx="18" cy="84" r="2.2" fill="#10b981" />
+  <circle cx="18" cy="36" r="2.2" fill="#6ee7b7" />
+
+  <!-- 7. Side Neon Code Chevrons < > -->
+  <path
+    d="M23 51 L15 60 L23 69"
+    fill="none"
+    stroke="#34d399"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.85"
+  />
+  <path
+    d="M97 51 L105 60 L97 69"
+    fill="none"
+    stroke="#22d3ee"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.85"
+  />
+
+  <!-- 8. 3D Sculpted Interlocking 'T' & 'A' Cyber-Blades -->
+  <g filter="url(#cyberShadow)">
+    <!-- 3D 'T' Blade -->
+    <path
+      d="M26 36 H64 L59.2 47.5 H48.5 V85 H36 V47.5 H26 Z"
+      fill="url(#tBlade)"
+    />
+    <!-- 'T' Specular Top Bevel -->
+    <path
+      d="M26 36 H64 L62.3 40 H28.5 V47.5 H26 Z"
+      fill="url(#specular)"
+    />
+
+    <!-- 3D Interlocking 'A' Blade -->
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M66.8 36 H78 L94 85 H81.5 L78.2 73.5 H63.8 L60 85 H48.5 L66.8 36 Z M71 50.5 L66.6 64 H75.2 L71 50.5 Z"
+      fill="url(#aBlade)"
+    />
+    <!-- 'A' Specular Diagonal Highlight -->
+    <path
+      d="M66.8 36 H70.5 L52.2 85 H48.5 L66.8 36 Z"
+      fill="url(#specular)"
+    />
+  </g>
+
+  <!-- 9. Top Specular Crown Highlight -->
+  <path
+    d="M36 16.5 L60 3 L84 16.5"
+    fill="none"
+    stroke="#ecfdf5"
+    stroke-width="2"
+    stroke-linecap="round"
+    opacity="0.75"
+  />
 </svg>
-

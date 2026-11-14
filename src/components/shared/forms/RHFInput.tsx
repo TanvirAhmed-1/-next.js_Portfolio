@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import {
   useFormContext,
   Controller,
-  Control,
-  UseFormRegister,
   FieldError,
 } from "react-hook-form";
 import { Label } from "@/components/ui/label";
@@ -16,6 +14,7 @@ export interface RHFInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "name"> {
   name: string;
   label?: string;
+  labelRight?: React.ReactNode;
   helperText?: string;
   required?: boolean;
   icon?: React.ReactNode;
@@ -28,6 +27,7 @@ export interface RHFInputProps
 export function RHFInput({
   name,
   label,
+  labelRight,
   helperText,
   required = false,
   type = "text",
@@ -54,21 +54,26 @@ export function RHFInput({
   ) => {
     return (
       <div className={`space-y-1.5 w-full ${containerClassName}`}>
-        {label && (
-          <Label
-            htmlFor={name}
-            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center justify-between"
-          >
-            <span>
-              {label}
-              {required && <span className="text-destructive ml-1">*</span>}
-            </span>
-          </Label>
+        {(label || labelRight) && (
+          <div className="flex items-center justify-between h-5">
+            {label ? (
+              <Label
+                htmlFor={name}
+                className="font-sans text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1 leading-none"
+              >
+                <span>{label}</span>
+                {required && <span className="text-rose-500">*</span>}
+              </Label>
+            ) : (
+              <span />
+            )}
+            {labelRight && <div className="flex items-center">{labelRight}</div>}
+          </div>
         )}
 
         <div className="relative flex items-center">
           {icon && (
-            <div className="absolute left-3 text-muted-foreground pointer-events-none flex items-center justify-center">
+            <div className="absolute left-3.5 text-slate-400 dark:text-slate-500 pointer-events-none flex items-center justify-center">
               {icon}
             </div>
           )}
@@ -78,12 +83,12 @@ export function RHFInput({
             type={inputType}
             placeholder={placeholder}
             disabled={disabled}
-            className={`w-full transition-all duration-200 ${
-              icon ? "pl-9" : ""
+            className={`h-10 w-full rounded-lg text-sm font-sans transition-all duration-200 ${
+              icon ? "pl-10" : "px-3.5"
             } ${isPassword ? "pr-10" : ""} ${
               errorMessage
-                ? "border-destructive focus-visible:ring-destructive/30"
-                : "border-input focus-visible:ring-primary/40"
+                ? "border-rose-500 focus-visible:border-rose-500 focus-visible:ring-rose-500/20"
+                : "border-slate-200 dark:border-slate-800 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/20"
             } ${className}`}
             {...fieldProps}
             {...rest}
@@ -94,7 +99,7 @@ export function RHFInput({
               type="button"
               tabIndex={-1}
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 text-muted-foreground hover:text-foreground focus:outline-none transition-colors"
+              className="absolute right-3 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 focus:outline-none transition-colors"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
@@ -107,19 +112,18 @@ export function RHFInput({
         </div>
 
         {errorMessage && (
-          <p className="text-xs text-destructive font-medium flex items-center gap-1">
+          <p className="text-xs text-rose-500 font-medium flex items-center gap-1">
             {errorMessage}
           </p>
         )}
 
         {!errorMessage && helperText && (
-          <p className="text-xs text-muted-foreground">{helperText}</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400">{helperText}</p>
         )}
       </div>
     );
   };
 
-  // If controller is available, use Controller for reactive binding & errors
   if (effectiveControl) {
     return (
       <Controller
@@ -147,7 +151,6 @@ export function RHFInput({
     );
   }
 
-  // Fallback: If register function was supplied or from context
   const regFn = register || formContext?.register;
   const registeredProps = regFn ? regFn(name) : {};
   const contextError = formContext?.formState?.errors?.[name] as FieldError | undefined;

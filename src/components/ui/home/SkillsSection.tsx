@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Skill, SkillCategory } from "@/types";
 import { Button } from "@/components/ui/button";
 import { SkillFormDialog } from "@/components/admin/SkillFormDialog";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import {
   Terminal,
   Layers,
@@ -192,7 +193,7 @@ export function SkillsSection({ initialSkills }: SkillsSectionProps) {
     return (
       <div
         key={skill.id}
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/90 text-slate-800 font-mono text-xs font-medium hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-800 dark:bg-slate-800/70 dark:border-slate-700/80 dark:text-slate-200 dark:hover:border-emerald-500/50 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-300 transition-all cursor-default shadow-2xs"
+        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/90 text-slate-800 font-mono text-xs font-medium hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-800 dark:bg-slate-800/70 dark:border-slate-700/80 dark:text-slate-200 dark:hover:border-emerald-500/50 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-300 transition-all cursor-default shadow-2xs hover:scale-105"
       >
         <img
           src={iconSrc}
@@ -205,10 +206,10 @@ export function SkillsSection({ initialSkills }: SkillsSectionProps) {
   };
 
   return (
-    <section className="py-24 bg-slate-50/90 dark:bg-slate-950/50 border-b border-slate-200/80 dark:border-slate-800 relative" id="skills">
+    <section className="py-14 sm:py-16 bg-slate-50/90 dark:bg-slate-950/50 border-b border-slate-200/80 dark:border-slate-800 relative" id="skills">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div className="flex flex-col items-center text-center mb-10 sm:mb-12 motion-preset-slide-up motion-duration-700">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/30 mb-3">
             <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
             <span className="font-mono text-xs text-emerald-800 dark:text-emerald-400 uppercase tracking-wider font-semibold">
@@ -223,98 +224,108 @@ export function SkillsSection({ initialSkills }: SkillsSectionProps) {
           </p>
         </div>
 
-        {/* Grid of Stack Containers */}
+        {/* Grid of Stack Containers with Scroll Reveal */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           {/* 1. Programming Languages */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-emerald-500/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
-              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
-                <span className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20">
-                  <Terminal className="h-4 w-4" />
+          <ScrollReveal direction="up" delay={0.1}>
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-emerald-500/50 hover:shadow-xl transition-all duration-300 h-full">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+                <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                  <span className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20">
+                    <Terminal className="h-4 w-4" />
+                  </span>
+                  Programming Languages
                 </span>
-                Programming Languages
-              </span>
-              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
-                {groups.languages.length.toString().padStart(2, "0")} Tools
-              </span>
+                <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                  {groups.languages.length.toString().padStart(2, "0")} Tools
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {groups.languages.map((item) => renderSkillPill(item))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {groups.languages.map((item) => renderSkillPill(item))}
-            </div>
-          </div>
+          </ScrollReveal>
 
           {/* 2. Frameworks & UI */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-teal-500/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
-              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
-                <span className="p-2 rounded-lg bg-teal-50 dark:bg-cyan-500/10 text-teal-600 dark:text-cyan-400 border border-teal-200/60 dark:border-cyan-500/20">
-                  <Layers className="h-4 w-4" />
+          <ScrollReveal direction="up" delay={0.2}>
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-teal-500/50 hover:shadow-xl transition-all duration-300 h-full">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+                <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                  <span className="p-2 rounded-lg bg-teal-50 dark:bg-cyan-500/10 text-teal-600 dark:text-cyan-400 border border-teal-200/60 dark:border-cyan-500/20">
+                    <Layers className="h-4 w-4" />
+                  </span>
+                  Frontend &amp; Frameworks
                 </span>
-                Frontend &amp; Frameworks
-              </span>
-              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
-                {groups.frontend.length.toString().padStart(2, "0")} Tools
-              </span>
+                <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                  {groups.frontend.length.toString().padStart(2, "0")} Tools
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {groups.frontend.map((item) => renderSkillPill(item))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {groups.frontend.map((item) => renderSkillPill(item))}
-            </div>
-          </div>
+          </ScrollReveal>
 
           {/* 3. Backend & APIs */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-indigo-500/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
-              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
-                <span className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20">
-                  <Cpu className="h-4 w-4" />
+          <ScrollReveal direction="up" delay={0.3}>
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-indigo-500/50 hover:shadow-xl transition-all duration-300 h-full">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+                <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                  <span className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20">
+                    <Cpu className="h-4 w-4" />
+                  </span>
+                  Backend Architecture
                 </span>
-                Backend Architecture
-              </span>
-              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
-                {groups.backend.length.toString().padStart(2, "0")} Tools
-              </span>
+                <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                  {groups.backend.length.toString().padStart(2, "0")} Tools
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {groups.backend.map((item) => renderSkillPill(item))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {groups.backend.map((item) => renderSkillPill(item))}
-            </div>
-          </div>
+          </ScrollReveal>
 
           {/* 4. Databases */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-amber-500/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
-              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
-                <span className="p-2 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-500/20">
-                  <Database className="h-4 w-4" />
+          <ScrollReveal direction="up" delay={0.4}>
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-amber-500/50 hover:shadow-xl transition-all duration-300 h-full">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+                <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                  <span className="p-2 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-500/20">
+                    <Database className="h-4 w-4" />
+                  </span>
+                  Databases &amp; Modeling
                 </span>
-                Databases &amp; Modeling
-              </span>
-              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
-                {groups.database.length.toString().padStart(2, "0")} Tools
-              </span>
+                <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                  {groups.database.length.toString().padStart(2, "0")} Tools
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {groups.database.map((item) => renderSkillPill(item))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {groups.database.map((item) => renderSkillPill(item))}
-            </div>
-          </div>
+          </ScrollReveal>
 
           {/* 5. Platforms & Tooling (Spans 2 columns on tablet & desktop) */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-sky-500/50 hover:shadow-xl transition-all duration-300 md:col-span-2 lg:col-span-2">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
-              <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
-                <span className="p-2 rounded-lg bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-200/60 dark:border-sky-500/20">
-                  <Wrench className="h-4 w-4" />
+          <ScrollReveal direction="up" delay={0.5} className="md:col-span-2 lg:col-span-2">
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col gap-4 group hover:border-sky-500/50 hover:shadow-xl transition-all duration-300 h-full">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
+                <span className="text-sm text-slate-900 dark:text-white font-bold flex items-center gap-2.5">
+                  <span className="p-2 rounded-lg bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-200/60 dark:border-sky-500/20">
+                    <Wrench className="h-4 w-4" />
+                  </span>
+                  Tools, Cloud &amp; Platforms
                 </span>
-                Tools, Cloud &amp; Platforms
-              </span>
-              <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
-                {groups.tools.length.toString().padStart(2, "0")} Tools
-              </span>
+                <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                  {groups.tools.length.toString().padStart(2, "0")} Tools
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {groups.tools.map((item) => renderSkillPill(item))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {groups.tools.map((item) => renderSkillPill(item))}
-            </div>
-          </div>
+          </ScrollReveal>
 
         </div>
       </div>

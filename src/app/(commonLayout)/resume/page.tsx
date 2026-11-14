@@ -25,12 +25,14 @@ import {
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { IProfile } from "@/server/modules/profile/profile.interface";
+import { PdfCanvasViewer } from "@/components/shared/PdfCanvasViewer";
 
 export default function ResumePage() {
   const [profile, setProfile] = useState<IProfile | null>(null);
   const [educations, setEducations] = useState<Education[]>(initialEducations);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"pdf" | "web">("pdf");
+  const [pdfEngine, setPdfEngine] = useState<"native" | "gview">("native");
 
   useEffect(() => {
     Promise.all([
@@ -79,9 +81,28 @@ export default function ResumePage() {
     (resumeUrl.startsWith("http://") || resumeUrl.startsWith("https://") || resumeUrl.endsWith(".pdf"))
   );
 
+  const isImageResume = /\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i.test(resumeUrl);
+
+  // Build properly fitted PDF embed URL so browser never clips or horizontally scrolls the page
+  const getPdfEmbedUrl = (rawUrl: string) => {
+    if (!rawUrl) return "";
+    // Google Drive view links -> embeddable preview links
+    if (rawUrl.includes("drive.google.com/file/d/")) {
+      return rawUrl.replace(/\/view(\?.*)?$/, "/preview");
+    }
+    if (pdfEngine === "gview" && rawUrl.startsWith("https://")) {
+      return `https://docs.google.com/gview?url=${encodeURIComponent(rawUrl)}&embedded=true`;
+    }
+    // Native browser PDF viewer: force FitH (fit horizontal width) and hide clunky side panes
+    const cleanUrl = rawUrl.split("#")[0];
+    return `${cleanUrl}#view=FitH&toolbar=0&navpanes=0`;
+  };
+
+  const pdfEmbedUrl = getPdfEmbedUrl(resumeUrl);
+
   return (
-    <div className="min-h-screen py-24 sm:py-32 bg-background text-foreground print:py-0 print:bg-white print:text-black">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-24 sm:py-28 bg-background text-foreground print:py-0 print:bg-white print:text-black">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Navigation & Action Controls Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 print:hidden">
@@ -156,44 +177,87 @@ export default function ResumePage() {
           </div>
         ) : viewMode === "pdf" && hasCustomPdf ? (
           /* PDF EMBEDDED VIEWER */
-          <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-card border border-border shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="rounded-2xl bg-card border border-border/90 shadow-xl overflow-hidden">
+            {/* Document Header Bar */}
+            <div className="px-5 py-4 border-b border-border/80 bg-card flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 flex items-center justify-center shrink-0">
+                <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                   <FileText className="h-5 w-5" />
                 </div>
                 <div>
-                  <h1 className="text-base font-bold text-foreground flex items-center gap-2">
-                    {name}&apos;s Official Resume
-                    <Badge variant="outline" className="text-[10px] border-emerald-500/40 text-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-500/10 font-mono">
-                      PDF Document
+                  <h1 className="text-base font-bold text-foreground flex items-center gap-2 flex-wrap">
+                    <span>{name}&apos;s Official Resume</span>
+                    <Badge
+                      variant="outline"
+                      className="text-[10px] border-emerald-500/40 text-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-500/10 font-mono"
+                    >
+                      A4 PDF Document
                     </Badge>
                   </h1>
-                  <p className="text-xs text-muted-foreground font-mono">
-                    Live uploaded resume • Rendered from Cloudinary storage
+                  <p className="text-xs text-muted-foreground font-mono mt-0.5">
+                    Live uploaded resume • Auto-fitted to viewport width
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                {!isImageResume && resumeUrl.startsWith("https://") && !resumeUrl.includes("drive.google.com") && (
+                  <div className="inline-flex p-0.5 rounded-lg bg-muted border border-border/80 text-[11px] font-mono">
+                    <button
+                      type="button"
+                      onClick={() => setPdfEngine("native")}
+                      className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                        pdfEngine === "native"
+                          ? "bg-card text-foreground font-bold shadow-2xs"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      Fit Width
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPdfEngine("gview")}
+                      className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                        pdfEngine === "gview"
+                          ? "bg-card text-foreground font-bold shadow-2xs"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      Cloud Viewer
+                    </button>
+                  </div>
+                )}
+
                 <a
                   href={resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-muted-foreground hover:text-foreground font-mono underline"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border/80 bg-background hover:bg-muted text-xs font-mono font-medium text-foreground transition-colors"
                 >
-                  Direct link / Fallback
+                  <ExternalLink className="h-3.5 w-3.5 text-emerald-500" />
+                  Open Original
                 </a>
               </div>
             </div>
 
-            {/* Embedded PDF iframe */}
-            <div className="relative w-full rounded-2xl overflow-hidden border border-border shadow-2xl bg-slate-100 dark:bg-slate-900">
-              <iframe
-                src={resumeUrl}
-                className="w-full h-[85vh] min-h-[750px] border-none"
-                title={`${name} Official Resume PDF`}
-              />
+            {/* Clean A4-Fitted Full-Page CV Viewer (No trapped X/Y scrollbars) */}
+            <div className="p-3 sm:p-6 bg-slate-100/90 dark:bg-slate-950/70">
+              {!isImageResume && pdfEngine === "gview" && resumeUrl.startsWith("https://") ? (
+                <div className="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-lg bg-white">
+                  <iframe
+                    key={pdfEmbedUrl}
+                    src={pdfEmbedUrl}
+                    className="w-full h-[1200px] border-0 block bg-white"
+                    title={`${name} Official Resume PDF`}
+                    loading="lazy"
+                  />
+                </div>
+              ) : (
+                <PdfCanvasViewer
+                  url={resumeUrl}
+                  title={`${name} Official Resume`}
+                />
+              )}
             </div>
           </div>
         ) : (

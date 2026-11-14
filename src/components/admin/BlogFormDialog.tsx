@@ -154,17 +154,17 @@ export function BlogFormDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-card border-border">
+      <DialogContent className="max-w-3xl no-scrollbar">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-bold">
+          <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             {blogToEdit ? (
               <>
-                <Edit className="h-5 w-5 text-primary" />
+                <Edit className="h-5 w-5 text-emerald-500" />
                 Edit Technical Article
               </>
             ) : (
               <>
-                <Plus className="h-5 w-5 text-primary" />
+                <Plus className="h-5 w-5 text-emerald-500" />
                 Publish New Technical Article
               </>
             )}
@@ -177,32 +177,33 @@ export function BlogFormDialog({
         </DialogHeader>
 
         {serverError && (
-          <div className="p-3 text-sm rounded-lg bg-destructive/10 border border-destructive/30 text-destructive">
+          <div className="p-3 text-xs rounded-lg bg-destructive/10 border border-destructive/30 text-destructive">
             {serverError}
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-2">
-          {/* Title */}
-          <RHFInput
-            name="title"
-            label="Article Title"
-            placeholder="e.g. Architecting High-Throughput Event-Driven Microservices"
-            required
-            control={control}
-          />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-1">
+          {/* Row 1: Title + Slug */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+            <RHFInput
+              name="title"
+              label="Article Title"
+              placeholder="e.g. Architecting Event-Driven Microservices"
+              required
+              control={control}
+            />
 
-          {/* Slug */}
-          <RHFInput
-            name="slug"
-            label="URL Slug"
-            placeholder="architecting-high-throughput-microservices"
-            control={control}
-            className="font-mono text-xs"
-          />
+            <RHFInput
+              name="slug"
+              label="URL Slug (Auto Generated)"
+              placeholder="architecting-event-driven-microservices"
+              control={control}
+              className="font-mono text-xs"
+            />
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Category */}
+          {/* Row 2: Category + Read Time + Tags */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
             <RHFSelector
               name="category"
               label="Category"
@@ -211,67 +212,73 @@ export function BlogFormDialog({
               control={control}
             />
 
-            {/* Read Time */}
             <RHFInput
               name="readTime"
               label="Estimated Read Time"
               placeholder="e.g. 7 min read"
               control={control}
             />
+
+            <RHFInput
+              name="tags"
+              label="Technologies / Tags"
+              placeholder="NestJS, RabbitMQ, Docker"
+              required
+              control={control}
+            />
           </div>
 
-          {/* Summary */}
+          {/* Row 3: Summary */}
           <RHFTextArea
             name="summary"
             label="Executive Summary / Overview"
-            rows={3}
+            rows={2}
             placeholder="Concise technical summary for search previews and index cards..."
             required
             control={control}
           />
 
-          {/* Full Content */}
+          {/* Row 4: Full Content */}
           <RHFTextArea
             name="content"
             label="Article Content / Deep Dive (Markdown Supported)"
-            rows={6}
+            rows={4}
             placeholder="Write the in-depth technical analysis, architecture breakdown, or code snippets..."
             control={control}
             className="font-mono text-xs"
           />
 
-          {/* Tags */}
-          <RHFInput
-            name="tags"
-            label="Technologies / Tags (comma-separated)"
-            placeholder="NestJS, RabbitMQ, Docker, Microservices"
-            required
-            control={control}
-          />
-
           {/* Published Switch */}
-          <div className="flex items-center gap-3 p-3 rounded-lg border border-border/60 bg-muted/30">
+          <label
+            htmlFor="published"
+            className="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 hover:border-emerald-500/40 transition-colors cursor-pointer"
+          >
             <input
               type="checkbox"
               id="published"
               {...register("published")}
-              className="h-4 w-4 rounded border-input text-primary focus:ring-primary/40 cursor-pointer"
+              className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500/40 cursor-pointer"
             />
-            <Label htmlFor="published" className="text-sm font-medium cursor-pointer">
+            <span className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">
               Publish immediately (visible to all readers on /blog)
-            </Label>
-          </div>
+            </span>
+          </label>
 
-          <DialogFooter className="pt-4 border-t border-border/40 gap-2">
+          <DialogFooter className="mt-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
               disabled={submitting}
+              className="h-9 px-4 rounded-lg"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={submitting} className="gap-2">
+            <Button
+              type="submit"
+              disabled={submitting}
+              className="h-9 px-5 rounded-lg gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
+            >
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {blogToEdit ? "Save Changes" : "Publish Article"}
             </Button>

@@ -100,19 +100,19 @@ export function RHFImageUpload({
 
     return (
       <div className={`space-y-2 w-full ${containerClassName}`}>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between h-5">
           <Label
             htmlFor={name}
-            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1"
+            className="font-sans text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1 leading-none"
           >
             <span>{label}</span>
-            {required && <span className="text-destructive">*</span>}
+            {required && <span className="text-rose-500">*</span>}
           </Label>
 
           <button
             type="button"
             onClick={() => setMode(mode === "upload" ? "url" : "upload")}
-            className="text-[11px] text-primary hover:underline font-mono"
+            className="text-[11px] text-emerald-600 dark:text-emerald-400 hover:underline font-mono font-medium"
           >
             {mode === "upload" ? "Paste Image URL instead" : "Upload File instead"}
           </button>
@@ -206,7 +206,7 @@ export function RHFImageUpload({
               placeholder="https://images.unsplash.com/... or https://res.cloudinary.com/..."
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm font-mono text-xs focus:outline-none focus:ring-2 focus:ring-primary/40"
+              className="h-10 w-full px-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 text-sm font-mono text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
             />
           </div>
         )}

@@ -4,8 +4,6 @@ import React from "react";
 import {
   useFormContext,
   Controller,
-  Control,
-  UseFormRegister,
   FieldError,
 } from "react-hook-form";
 import { Label } from "@/components/ui/label";
@@ -15,6 +13,7 @@ export interface RHFTextAreaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "name"> {
   name: string;
   label?: string;
+  labelRight?: React.ReactNode;
   helperText?: string;
   required?: boolean;
   control?: any;
@@ -26,10 +25,11 @@ export interface RHFTextAreaProps
 export function RHFTextArea({
   name,
   label,
+  labelRight,
   helperText,
   required = false,
   placeholder,
-  rows = 4,
+  rows = 3,
   disabled,
   className = "",
   containerClassName = "",
@@ -47,16 +47,21 @@ export function RHFTextArea({
   ) => {
     return (
       <div className={`space-y-1.5 w-full ${containerClassName}`}>
-        {label && (
-          <Label
-            htmlFor={name}
-            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center justify-between"
-          >
-            <span>
-              {label}
-              {required && <span className="text-destructive ml-1">*</span>}
-            </span>
-          </Label>
+        {(label || labelRight) && (
+          <div className="flex items-center justify-between h-5">
+            {label ? (
+              <Label
+                htmlFor={name}
+                className="font-sans text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1 leading-none"
+              >
+                <span>{label}</span>
+                {required && <span className="text-rose-500">*</span>}
+              </Label>
+            ) : (
+              <span />
+            )}
+            {labelRight && <div className="flex items-center">{labelRight}</div>}
+          </div>
         )}
 
         <Textarea
@@ -64,23 +69,23 @@ export function RHFTextArea({
           rows={rows}
           placeholder={placeholder}
           disabled={disabled}
-          className={`w-full transition-all duration-200 resize-y ${
+          className={`w-full rounded-lg text-sm font-sans transition-all duration-200 resize-y no-scrollbar ${
             errorMessage
-              ? "border-destructive focus-visible:ring-destructive/30"
-              : "border-input focus-visible:ring-primary/40"
+              ? "border-rose-500 focus-visible:border-rose-500 focus-visible:ring-rose-500/20"
+              : "border-slate-200 dark:border-slate-800 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/20"
           } ${className}`}
           {...fieldProps}
           {...rest}
         />
 
         {errorMessage && (
-          <p className="text-xs text-destructive font-medium flex items-center gap-1">
+          <p className="text-xs text-rose-500 font-medium flex items-center gap-1">
             {errorMessage}
           </p>
         )}
 
         {!errorMessage && helperText && (
-          <p className="text-xs text-muted-foreground">{helperText}</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400">{helperText}</p>
         )}
       </div>
     );
